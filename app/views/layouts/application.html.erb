@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>InnApp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application" %>
+  </head>
+
+  <body>
+    <header>
+      <h1>Pousadaria</h1>
+      <nav>
+      
+        <%= link_to 'Início', root_path %>    
+        <% if user_signed_in? %>
+          <%= current_user.email %>
+          <%=button_to('Sair', destroy_user_session_path, method: :delete) %>
+        <% else %>
+          <%=link_to('Entrar', new_user_session_path) %>
+        <% end %>
+      </nav>
+    </header>
+    
+    <main>
+      <div>
+        <%= alert %>
+        <%= notice %>
+      </div>
+      <%= yield %>
+    </main>
+  </body>
+</html>

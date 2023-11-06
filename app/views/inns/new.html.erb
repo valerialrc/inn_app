@@ -1,0 +1,40 @@
+<h1>Nova Pousada</h1>
+
+<%= form_with(model: @inn) do |form| %>
+  <%= form.label :trade_name %>
+  <%= form.text_field :trade_name %>
+
+  <%= form.label :cnpj %>
+  <%= form.number_field :cnpj %>
+
+  <%= form.label :phone %>
+  <%= form.number_field :phone %>
+
+  <%= form.label :email %>
+  <%= form.text_field :email %>
+
+  <%= form.label :description %>
+  <%= form.text_area :description %>
+
+  <%= form.fields_for :address do |address_form| %>
+    <%= address_form.label :street %>
+    <%= address_form.text_field :street %>
+
+    <%= address_form.label :number %>
+    <%= address_form.number_field :number %>
+
+    <%= address_form.label :district %>
+    <%= address_form.text_field :district %>
+
+    <%= address_form.label :state %>
+    <%= address_form.text_field :state %>
+
+    <%= address_form.label :city %>
+    <%= address_form.text_field :city %>
+
+    <%= address_form.label :cep %>
+    <%= address_form.text_field :cep %>
+  <% end %>
+
+  <%= form.submit 'Salvar' %>
+<% end %>
