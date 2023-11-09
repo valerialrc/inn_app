@@ -6,12 +6,7 @@ describe 'Usuário se cadastra' do
 
     # Act
     visit root_path
-    click_on 'Entrar'
-    click_on 'Criar conta'
-    fill_in 'E-mail', with: 'joao@email.com'
-    fill_in 'Senha', with: 'password'
-    fill_in 'Confirme sua senha', with: 'password'
-    click_on 'Criar conta'
+    sign_up
     
     # Assert
     expect(page).to have_content 'Boas vindas! Você realizou seu registro com sucesso.'

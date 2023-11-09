@@ -10,7 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_06_022659) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_07_212620) do
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.integer "number"
+    t.string "district"
+    t.string "state"
+    t.string "city"
+    t.string "cep"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "inn_id"
+    t.index ["inn_id"], name: "index_addresses_on_inn_id"
+  end
+
+  create_table "inns", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "trade_name"
+    t.string "cnpj"
+    t.string "phone"
+    t.string "email"
+    t.string "description"
+    t.integer "payment_method_id", null: false
+    t.boolean "accepts_pets"
+    t.time "checkin_time"
+    t.time "checkout_time"
+    t.string "policies"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "legal_name"
+    t.index ["payment_method_id"], name: "index_inns_on_payment_method_id"
+    t.index ["user_id"], name: "index_inns_on_user_id"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -23,4 +62,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_06_022659) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "addresses", "inns"
+  add_foreign_key "inns", "payment_methods"
+  add_foreign_key "inns", "users"
 end

@@ -1,0 +1,30 @@
+<h1><%= @inn.trade_name %></h1>
+<div>
+  <strong>Descrição: </strong><%= @inn.description %>
+</div>
+<div>
+  <strong>E-mail: </strong><%= @inn.email %>
+</div>
+<div>
+  <strong>Endereço:</strong> <%= @inn.address.street %>, <%= @inn.address.number %>, <%= @inn.address.district %>, <%= @inn.address.city %>, <%= @inn.address.state%> <strong>CEP:</strong> <%= @inn.address.cep%>
+</div>
+<div>
+  <strong>Forma de Pagamento: </strong> <%= @inn.payment_method.name %>
+</div>
+<div>
+  <strong>Horário de Check-in: </strong> <%= @inn.checkin_time.strftime("%H:%M") %>
+</div>
+<div>
+  <strong>Horário de Check-out: </strong> <%= @inn.checkout_time.strftime("%H:%M") %>
+</div>
+<div>
+  <% if @inn.accepts_pets %>
+    Aceita animais
+  <% else %>
+    Não aceita animais
+  <% end %>
+</div>
+<div>
+  <%= link_to('Editar', edit_inn_path)%>
+</div>
+<%= link_to('Voltar', root_path)%>

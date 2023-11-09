@@ -1,4 +1,20 @@
 <section id='inns'>
   <h2> Pousadas </h2>
+    <% @inns.each do |i| %>
+    <div>
+      <h3><%= link_to(i.trade_name, inn_path(i.id)) %></h3>
+      <dl>
+        <dt>Descrição:</dt>
+        <dd><%= i.description %></dd>
+      </dl>
+      <dl>
+        <dt>Cidade:</dt>
+        <dd><%= i.address.city %></dd>
+      </dl>
+    </div>
+  <% end %>
 
+  <% if @inns.empty? %>
+    <p>Não existem galpões cadastrados</p>
+  <% end %>
 </section>

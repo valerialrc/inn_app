@@ -1,15 +1,15 @@
-<h1>Nova Pousada</h1>
+<h1>Editar Pousada</h1>
 
-<% if @inn.errors.any?%>
+<% if @inn.errors.any? %>
   <p>Verifique os erros abaixo:</p>
   <ul>
     <% @inn.errors.full_messages.each do |msg| %>
-      <li><%= msg %> </li>
+      <li><%= msg %></li>
     <% end %>
   </ul>
 <% end %>
 
-<%= form_with(model: @inn) do |form| %>
+<%= form_with(model: @inn, local: true) do |form| %>
   <div>
     <%= form.label :trade_name %>
     <%= form.text_field :trade_name %>
@@ -48,7 +48,7 @@
       <%= address_form.label :district %>
       <%= address_form.text_field :district %>
     </div>
-        <div>
+    <div>
       <%= address_form.label :city %>
       <%= address_form.text_field :city %>
     </div>
@@ -82,7 +82,7 @@
     <%= form.label :policies %>
     <%= form.text_area :policies %>
   </div>
-   <div>
+  <div>
     <%= form.label :active %>
     <%= form.check_box :active %>
   </div>
