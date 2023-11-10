@@ -1,5 +1,7 @@
 class InnsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_inn, only: [:show, :edit, :update]
+  skip_before_action :check_for_inn, only: [:new, :create, :edit, :update]
 
   def show
   end
@@ -10,9 +12,8 @@ class InnsController < ApplicationController
   end
 
   def create
-    @inn = Inn.new(inn_params)
-    @inn.user = current_user
-
+    @inn = current_user.build_inn(inn_params)
+    
     if @inn.save
       redirect_to @inn, notice: 'Pousada cadastrada com sucesso!'
     else
@@ -22,9 +23,17 @@ class InnsController < ApplicationController
   end
 
   def edit
+    redirect_to root_path,
+    notice: "Você não tem permissão para editar esta pousada." unless
+    current_user == @inn.user
+    
   end
 
   def update
+    redirect_to root_path,
+    notice: "Você não tem permissão para editar esta pousada." unless
+    current_user == @inn.user
+
     if @inn.update(inn_params)
       redirect_to @inn, notice: 'Pousada atualizada com sucesso!'
     else

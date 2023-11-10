@@ -11,24 +11,26 @@ describe 'Usuário visita tela inicial' do
     expect(page).to have_content('Pousadaria')
   end
 
-  it 'e vê as pousadas cadastrados' do
+  it 'e vê as pousadas cadastradas que estão ativas' do
     # Arrange
-    user = User.create!(email: 'joao@email.com', password: 'password')
+    create_inn
+
+    user = User.create!(email: 'pedro@email.com', password: 'password')
 
     pm = PaymentMethod.create!(name: 'Pix')
     pm2 = PaymentMethod.create!(name: 'Dinheiro')
 
-    inn = Inn.create!(user: user, trade_name: 'Pousada das Pedras',
-                      legal_name: 'Pousada das Pedras LTDA', cnpj: 'CNPJ',
-                      phone: '(31)99999-9999', email: 'contado@pedras.com',
-                      description: 'Pousada para a família',
-                      payment_method: pm, accepts_pets: true, 
-                      checkin_time: '13:00', checkout_time: '11:00',
-                      policies: 'Boa convivência', active: true)
-
-    address = Address.create!(street: 'Rua das Pedras', number: 56,
-                              district: 'Centro', city: 'BH', state: 'MG',
-                              cep: '30000-000', inn: inn)
+    inn = Inn.create!(user: user, trade_name: 'Pousada das Palmeiras',
+                    legal_name: 'Pousada das Palmeiras LTDA', cnpj: '987654321',
+                    phone: '(31)11111-1111', email: 'contado@palmeiras.com',
+                    description: 'Pousada para casais',
+                    payment_method: pm2, accepts_pets: false, 
+                    checkin_time: '13:00', checkout_time: '11:00',
+                    policies: 'Boa convivência', active: false)
+  
+    address = Address.create!(street: 'Rua das Palmeiras', number: 65,
+                            district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
+                            cep: '50000-000', inn: inn)
 
     # Act
     visit root_path
@@ -38,14 +40,33 @@ describe 'Usuário visita tela inicial' do
     expect(page).to have_content('Pousada das Pedras')
     expect(page).to have_content('Pousada para a família')
     expect(page).to have_content('Cidade: BH')
+    expect(page).not_to have_content('Pousada das Palmeiras')
+    expect(page).not_to have_content('Pousada para casais')
+    expect(page).not_to have_content('Cidade: Boituva')
   end
 
-  it 'e não existem pousadas cadastradas' do 
+  it 'e não existem pousadas ativas cadastradas' do 
     # Arrange
+    user = User.create!(email: 'pedro@email.com', password: 'password')
+
+    pm = PaymentMethod.create!(name: 'Pix')
+    pm2 = PaymentMethod.create!(name: 'Dinheiro')
+
+    inn = Inn.create!(user: user, trade_name: 'Pousada das Palmeiras',
+                    legal_name: 'Pousada das Palmeiras LTDA', cnpj: '987654321',
+                    phone: '(31)11111-1111', email: 'contado@palmeiras.com',
+                    description: 'Pousada para casais',
+                    payment_method: pm2, accepts_pets: false, 
+                    checkin_time: '13:00', checkout_time: '11:00',
+                    policies: 'Boa convivência', active: false)
+  
+    address = Address.create!(street: 'Rua das Palmeiras', number: 65,
+                            district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
+                            cep: '50000-000', inn: inn)
 
     # Act
     visit root_path
     # Assert
-    expect(page).to have_content('Não existem galpões cadastrados')
+    expect(page).to have_content('Não existem pousadas cadastradas')
   end
 end

@@ -24,7 +24,9 @@
     Não aceita animais
   <% end %>
 </div>
-<div>
-  <%= link_to('Editar', edit_inn_path)%>
-</div>
+<% if user_signed_in? && @inn.user_id.eql?(current_user.id) %>
+  <div>
+    <%= link_to('Editar', edit_inn_path)%>
+  </div>
+<% end %>
 <%= link_to('Voltar', root_path)%>

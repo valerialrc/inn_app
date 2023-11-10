@@ -1,4 +1,4 @@
-def login(usuario)
+def login
   click_on 'Entrar'
   within('form') do
     fill_in 'E-mail', with: 'joao@email.com'
