@@ -1,0 +1,19 @@
+pt-BR:
+  activerecord:
+    models:
+      room: Quarto
+    attributes:
+      room:
+        name: Nome
+        description: Descrição
+        dimension: Dimensão
+        max_occupancy: Ocupação Máxima
+        daily_rate: Diária
+        has_bathroom: Banheiro próprio
+        has_balcony: Varanda
+        has_air_conditioning: Ar-condicionado
+        has_tv: TV
+        has_wardrobe: Guarda-roupas
+        has_safe: Cofre
+        is_accessible: Acessível para pessoas com deficiência
+        is_available: Disponível

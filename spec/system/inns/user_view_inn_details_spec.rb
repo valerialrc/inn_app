@@ -10,11 +10,11 @@ describe 'Usuário vê detalhes de um pousada' do
     click_on('Pousada das Pedras')
 
     # Assert
-    expect(page). to have_content('Pousada das Pedras')
-    expect(page). to have_content('Descrição: Pousada para a família')
-    expect(page). to have_content('Rua das Pedras, 56, Centro, BH, MG CEP: 30000-000')
-    expect(page). to have_content('Forma de Pagamento: Pix')
-    expect(page). to have_content('Aceita animais')
+    expect(page).to have_content('Pousada das Pedras')
+    expect(page).to have_content('Descrição: Pousada para a família')
+    expect(page).to have_content('Rua das Pedras, 56, Centro, BH, MG CEP: 30000-000')
+    expect(page).to have_content('Forma de Pagamento: Pix')
+    expect(page).to have_content('Aceita animais')
   end
 
   it 'e volta para a tela inicial' do

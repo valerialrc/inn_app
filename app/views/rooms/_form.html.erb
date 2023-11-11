@@ -1,0 +1,79 @@
+<% if @room.errors.any? %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @room.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: [@inn, @room], local: true) do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+  
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :dimension %>
+    <%= form.number_field :dimension %>
+  </div>
+
+  <div>
+    <%= form.label :max_occupancy %>
+    <%= form.number_field :max_occupancy %>
+  </div>
+
+  <div>
+    <%= form.label :daily_rate %>
+    <%= form.number_field :daily_rate %>
+  </div>
+
+  <div>
+    <%= form.label :has_bathroom %>
+    <%= form.check_box :has_bathroom %>
+  </div>
+
+  <div>
+    <%= form.label :has_balcony %>
+    <%= form.check_box :has_balcony %>
+  </div>
+
+  <div>
+    <%= form.label :has_air_conditioning %>
+    <%= form.check_box :has_air_conditioning %>
+  </div>
+
+  <div>
+    <%= form.label :has_tv %>
+    <%= form.check_box :has_tv %>
+  </div>
+
+  <div>
+    <%= form.label :has_wardrobe %>
+    <%= form.check_box :has_wardrobe %>
+  </div>
+
+  <div>
+    <%= form.label :has_safe %>
+    <%= form.check_box :has_safe %>
+  </div>
+
+  <div>
+    <%= form.label :is_accessible %>
+    <%= form.check_box :is_accessible %>
+  </div>
+
+  <div>
+    <%= form.label :is_available %>
+    <%= form.check_box :is_available %>
+  </div>
+
+  <div>
+    <%= form.submit 'Salvar' %>
+  </div>
+<% end %>

@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create]
   resources :inns, only: [:show, :new, :create, :edit, :update] do
     resources :addresses, only: [:new, :create, :edit, :update]
+    resources :rooms, except: [:destroy]
   end
 end

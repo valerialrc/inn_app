@@ -44,7 +44,7 @@ describe 'Usuário cadastra uma Pousada' do
     fill_in 'E-mail', with: 'contato@pedras.com'
     fill_in 'Descrição', with: 'Pousada para a família'
     fill_in 'Rua', with: 'Rua das Pedras'
-    fill_in 'Número', with: 56
+    fill_in 'Número', with: '56'
     fill_in 'Bairro', with: 'Centro'
     fill_in 'Cidade', with: 'BH'
     fill_in 'Estado', with: 'MG'
@@ -59,11 +59,11 @@ describe 'Usuário cadastra uma Pousada' do
   
     # Assert
     expect(page).to have_content 'Pousada cadastrada com sucesso!'
-    expect(page). to have_content 'Pousada das Pedras'
-    expect(page). to have_content 'Descrição: Pousada para a família'
-    expect(page). to have_content 'Rua das Pedras, 56, Centro, BH, MG CEP: 30000-000'
-    expect(page). to have_content 'Forma de Pagamento: Pix'
-    expect(page). to have_content 'Aceita animais'
+    expect(page).to have_content 'Pousada das Pedras'
+    expect(page).to have_content 'Descrição: Pousada para a família'
+    expect(page).to have_content 'Rua das Pedras, 56, Centro, BH, MG CEP: 30000-000'
+    expect(page).to have_content 'Forma de Pagamento: Pix'
+    expect(page).to have_content 'Aceita animais'
     expect(current_path).to eq '/inns/1'
   end
   
@@ -96,18 +96,16 @@ describe 'Usuário cadastra uma Pousada' do
   
     # Assert
     expect(page).to have_content 'Pousada cadastrada com sucesso!'
-    expect(page). to have_content 'Pousada das Pedras'
-    expect(page). to have_content 'Descrição: Pousada para a família'
-    expect(page). to have_content 'Rua das Pedras, 56, Centro, BH, MG CEP: 30000-000'
-    expect(page). to have_content 'Forma de Pagamento: Pix'
-    expect(page). to have_content 'Não aceita animais'
+    expect(page).to have_content 'Pousada das Pedras'
+    expect(page).to have_content 'Descrição: Pousada para a família'
+    expect(page).to have_content 'Rua das Pedras, 56, Centro, BH, MG CEP: 30000-000'
+    expect(page).to have_content 'Forma de Pagamento: Pix'
+    expect(page).to have_content 'Não aceita animais'
     expect(current_path).to eq '/inns/1'
   end
 
   it 'com dados incompletos' do
     # Arrange
-    pm = PaymentMethod.create!(name: 'Pix')
-    pm2 = PaymentMethod.create!(name: 'Dinheiro')
   
     # Act
     visit root_path
