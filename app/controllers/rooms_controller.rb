@@ -2,6 +2,7 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_room, only: [:show, :edit, :update]
   before_action :set_inn, only: [:show, :new, :create, :edit, :update]
+  before_action :set_period_prices, only: [:show]
   skip_before_action :check_for_inn, only: [:new, :create, :edit, :update]
 
   def show
@@ -49,6 +50,10 @@ class RoomsController < ApplicationController
 
   def set_inn
     @inn = Inn.find(params[:inn_id])
+  end
+
+  def set_period_prices
+    @period_prices = @room.period_prices.order(:start_date)
   end
 
   def room_params

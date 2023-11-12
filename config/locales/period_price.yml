@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    models:
+      period_price: Preços por Período
+    attributes:
+      period_price:
+        start_date: 'Data Inicial'
+        end_date: 'Data Final'
+        daily_value: 'Diária'
