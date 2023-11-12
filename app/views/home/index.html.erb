@@ -1,22 +1,18 @@
 <section id='inns'>
-  <h2> Pousadas </h2>
-    <% @inns.each do |i| %>
-      <% if i.active %>
-        <div>
-          <h3><%= link_to(i.trade_name, inn_path(i.id)) %></h3>
-          <dl>
-            <dt>Descrição:</dt>
-            <dd><%= i.description %></dd>
-          </dl>
-          <dl>
-            <dt>Cidade:</dt>
-            <dd><%= i.address.city %></dd>
-          </dl>
-        </div>
-      <% end %>
-  <% end %>
-
-  <% if @inns.empty? || (@inns.count == 1 && !@inns.last.active) %>
+  <% if @recent_inns.empty? %>
     <p>Não existem pousadas cadastradas</p>
+  <% else %>
+    <section id='recent_inns'>
+      <h1>Pousadas Mais Recentes</h1>
+      <% @recent_inns.each do |inn| %>
+        <%= link_to "#{inn.trade_name} - #{inn.address.city}", inn_path(inn) %><br>
+      <% end %>
+    </section>
+    <section id='other_inns'>
+      <h1>Outras Pousadas Ativas</h1>
+      <% @other_inns.each do |inn| %>
+        <%= link_to "#{inn.trade_name} - #{inn.address.city}", inn_path(inn) %><br>
+      <% end %>
+    </section>
   <% end %>
 </section>

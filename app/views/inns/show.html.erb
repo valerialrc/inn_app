@@ -3,6 +3,9 @@
   <strong>Descrição: </strong><%= @inn.description %>
 </div>
 <div>
+  <strong>Telefone: </strong><%= @inn.phone %>
+</div>
+<div>
   <strong>E-mail: </strong><%= @inn.email %>
 </div>
 <div>
@@ -16,6 +19,9 @@
 </div>
 <div>
   <strong>Horário de Check-out: </strong> <%= @inn.checkout_time.strftime("%H:%M") %>
+</div>
+<div>
+  <strong>Políticas de Uso: </strong> <%= @inn.policies %>
 </div>
 <div>
   <% if @inn.accepts_pets %>

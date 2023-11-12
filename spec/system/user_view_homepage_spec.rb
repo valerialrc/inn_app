@@ -14,11 +14,10 @@ describe 'Usuário visita tela inicial' do
   it 'e vê as pousadas cadastradas que estão ativas' do
     # Arrange
     create_inn
-
-    user = User.create!(email: 'pedro@email.com', password: 'password')
-
     pm = PaymentMethod.create!(name: 'Pix')
     pm2 = PaymentMethod.create!(name: 'Dinheiro')
+
+    user = User.create!(email: 'pedro@email.com', password: 'password')
 
     inn = Inn.create!(user: user, trade_name: 'Pousada das Palmeiras',
                     legal_name: 'Pousada das Palmeiras LTDA', cnpj: '987654321',
@@ -36,13 +35,10 @@ describe 'Usuário visita tela inicial' do
     visit root_path
 
     # Assert
+    expect(page).to have_selector('#recent_inns', text: 'Pousada das Pedras - BH')
     expect(page).not_to have_content('Não existem pousadas cadastrados')
-    expect(page).to have_content('Pousada das Pedras')
-    expect(page).to have_content('Pousada para a família')
-    expect(page).to have_content('Cidade: BH')
-    expect(page).not_to have_content('Pousada das Palmeiras')
-    expect(page).not_to have_content('Pousada para casais')
-    expect(page).not_to have_content('Cidade: Boituva')
+    expect(page).to have_link('Pousada das Pedras - BH')
+    expect(page).not_to have_link('Pousada das Palmeiras - Boituva')
   end
 
   it 'e não existem pousadas ativas cadastradas' do 
