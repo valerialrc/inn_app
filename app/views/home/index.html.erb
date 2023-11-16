@@ -14,5 +14,11 @@
         <%= link_to "#{inn.trade_name} - #{inn.address.city}", inn_path(inn) %><br>
       <% end %>
     </section>
+    <section id='cities'>
+      <h1>Cidades</h1>
+      <% @cities.each do |city| %>
+        <%= link_to city, city_path(city) %><br>
+      <% end %>
+    </section>
   <% end %>
 </section>

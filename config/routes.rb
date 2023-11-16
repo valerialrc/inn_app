@@ -8,4 +8,5 @@ Rails.application.routes.draw do
       resources :period_prices, only: [:new, :create]
     end
   end
+  resources :cities, only: [:show]
 end
