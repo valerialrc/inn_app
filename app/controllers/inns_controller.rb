@@ -42,6 +42,13 @@ class InnsController < ApplicationController
     end
   end
 
+  def search
+    @look_for = params[:query]
+
+    @inns = Inn.joins(:address).where("inns.trade_name LIKE ? OR addresses.city LIKE ? OR addresses.district LIKE ?",
+                                    "%#{@look_for}%", "%#{@look_for}%", "%#{@look_for}%").order(:trade_name).distinct
+  end
+
   private
 
   def set_inn

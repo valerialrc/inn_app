@@ -1,0 +1,7 @@
+<h1>Resultados da Busca por: <%= @look_for %></h1>
+
+<p><%= @inns.count %> <%= Inn.model_name.human(count: @inns.count).downcase %> <%= I18n.translate(:found, count: @inns.count) %></p>
+
+<% @inns.each do |inn| %>
+    <li><%= link_to(inn.trade_name, inn) %></li>
+<% end %>
