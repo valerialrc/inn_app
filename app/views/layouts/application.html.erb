@@ -11,9 +11,10 @@
 
   <body>
     <header>
-      <h1>Pousadaria</h1>
+    <%= link_to root_path do %>
+        <h1>Pousadaria</h1>
+      <% end %>
       <nav>
-        <%= link_to 'Início', root_path %>    
         <% if user_signed_in? %>
           <%= current_user.email %>
           <%=button_to('Sair', destroy_user_session_path, method: :delete) %>

@@ -1,0 +1,22 @@
+<h3>Quartos Disponíveis</h3>
+    <div class="room-container">
+      <% @inn.rooms.select(&:is_available?).each do |room| %>   
+        <div class="room-card">
+          <%= link_to(room.name, inn_room_path(@inn, room)) %>
+          <p><strong>Descrição:</strong> <%= room.description %></p>
+          <p><strong>Dimensão:</strong> <%= room.dimension %> m²</p>
+          <p><strong>Ocupação Máxima:</strong> <%= room.max_occupancy %></p>
+          <p><strong>Diária:</strong> <%= number_to_currency(room.daily_rate) %></p>
+          <p><strong>Comodidades:</strong></p>
+          <ul>
+            <li><%= room.has_bathroom ? 'Banheiro próprio' : 'Sem banheiro próprio' %></li>
+            <li><%= room.has_balcony ? 'Varanda' : 'Sem varanda' %></li>
+            <li><%= room.has_air_conditioning ? 'Ar-condicionado' : 'Sem ar-condicionado' %></li>
+            <li><%= room.has_tv ? 'TV' : 'Sem TV' %></li>
+            <li><%= room.has_wardrobe ? 'Guarda-roupas' : 'Sem guarda-roupas' %></li>
+            <li><%= room.has_safe ? 'Cofre' : 'Sem cofre' %></li>
+            <li><%= room.is_accessible ? 'Acessível para pessoas com deficiência' : 'Não acessível para pessoas com deficiência' %></li>
+          </ul>
+        </div>
+      <% end %>
+    </div>

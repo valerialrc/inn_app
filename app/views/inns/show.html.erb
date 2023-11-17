@@ -34,12 +34,7 @@
 <% if user_signed_in? && @inn.user_id.eql?(current_user.id) %>
   <h3>Quartos Cadastrados</h3>
   <% if @inn.rooms.any?(&:is_available?) %>
-    <h4>Disponíveis</h4>
-    <ul>
-      <% @inn.rooms.select(&:is_available?).each do |room| %>
-        <li><%= link_to(room.name, inn_room_path(@inn, room)) %></li>
-      <% end %>
-    </ul>
+    <%= render 'room' %>
   <% end %>
   <% if @inn.rooms.any? { |room| !room.is_available? } %>
     <h4>Indisponíveis</h4>
@@ -57,12 +52,7 @@
   </div>
 <% else %>
   <% if @inn.rooms.any?(&:is_available?) %>
-    <h3>Quartos Disponíveis</h3>
-    <ul>
-      <% @inn.rooms.select(&:is_available?).each do |room| %>
-        <li><%= link_to(room.name, inn_room_path(@inn, room)) %></li>
-      <% end %>
-    </ul>
+    <%= render 'room' %>
   <% else %>
     <h3>Não Existem Quartos Disponíveis</h3>
   <% end %>

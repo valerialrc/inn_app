@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Usuário cadastra um preço por período' do
+describe 'Usuário cadastra preço por período' do
   it 'a partir da tela de detalhes do quarto' do
     # Arrange
     create_inn
