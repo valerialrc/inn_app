@@ -1,6 +1,6 @@
 <h3>Quartos Disponíveis</h3>
     <div class="room-container">
-      <% @inn.rooms.select(&:is_available?).each do |room| %>   
+      <% @inn.rooms.select(&:is_available?).each do |room| %>
         <div class="room-card">
           <%= link_to(room.name, inn_room_path(@inn, room)) %>
           <p><strong>Descrição:</strong> <%= room.description %></p>
@@ -17,6 +17,7 @@
             <li><%= room.has_safe ? 'Cofre' : 'Sem cofre' %></li>
             <li><%= room.is_accessible ? 'Acessível para pessoas com deficiência' : 'Não acessível para pessoas com deficiência' %></li>
           </ul>
+          <%=button_to('Reservar', new_inn_room_reservation_path(@inn, room), method: :get) %>
         </div>
       <% end %>
     </div>

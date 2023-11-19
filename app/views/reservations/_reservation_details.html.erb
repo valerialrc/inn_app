@@ -1,0 +1,11 @@
+<h3>Detalhes da Reserva</h3>
+<p><strong>Quarto:</strong> <%= room.name %></p>
+<p><strong>Check-in:</strong> <%= reservation.checkin_date %></p>
+<p><strong>Check-out:</strong> <%= reservation.checkout_date %></p>
+<p><strong>Número de Hóspedes:</strong> <%= reservation.guests_number %></p>
+
+<% if defined?(reservation.total_price) %>
+  <p><strong>Total a Pagar:</strong> <%= number_to_currency(reservation.total_price) %></p>
+<% end %>
+
+

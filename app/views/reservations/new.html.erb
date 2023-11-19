@@ -1,0 +1,21 @@
+<% if @reservation.errors.any? %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @reservation.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: [@room, @reservation], url: inn_room_reservations_path(@room.inn, @room), local: true) do |form| %>
+  <%= form.label :checkin_date %>
+  <%= form.date_field :checkin_date %>
+
+  <%= form.label :checkout_date %>
+  <%= form.date_field :checkout_date %>
+
+  <%= form.label :guests_number %>
+  <%= form.number_field :guests_number %>
+
+  <%= form.submit 'Verificar Disponibilidade' %>
+<% end %>
