@@ -16,8 +16,8 @@
 
 .room-container {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
+  justify-content: flex-start; /* Alinha os itens no início (à esquerda) */
 }
 
 .room-card {

@@ -1,10 +1,11 @@
 class Reservation < ApplicationRecord
   belongs_to :room
-  belongs_to :user
+  belongs_to :customer, optional: true
 
   before_validation :calculate_total_price, on: :create
+  before_validation :generate_code, on: :create
 
-  validates :checkin_date, :checkout_date, :guests_number, :status, presence: true
+  validates :checkin_date, :checkout_date, :guests_number, :status, :code, presence: true
 
   validate :checkin_date_is_future
   validate :checkout_date_is_future
@@ -34,7 +35,7 @@ class Reservation < ApplicationRecord
   end 
 
   def calculate_total_price
-    if room && self.total_price == 0
+    if room && self.total_price == 0 && self.checkin_date && self.checkout_date
       (self.checkin_date..self.checkout_date.prev_day).each do |date|
         self.total_price += room.price_on_reservation_date(date)
       end
@@ -43,14 +44,18 @@ class Reservation < ApplicationRecord
 
   def no_date_overlap
     if Reservation.exists?(['room_id = ? AND ((checkin_date <= ? AND checkout_date >= ?) OR (checkin_date <= ? AND checkout_date >= ?)) AND status != ?',
-                            room_id, checkout_date, checkin_date, checkout_date, checkin_date, :canceled])
+                            room_id, checkout_date, checkin_date, checkout_date, checkin_date, Reservation.statuses[:canceled]])
       errors.add(:base, 'Já existe uma reserva para este quarto durante este período.')
     end
   end
 
   def max_occupancy
-    if room && room.max_occupancy < self.guests_number 
+    if room && guests_number && room.max_occupancy < self.guests_number 
       errors.add(:base, 'O Número de Hóspedes é maior que a capacidade do quarto.')
     end
+  end
+
+  def generate_code
+    self.code = SecureRandom.alphanumeric(8).upcase
   end
 end

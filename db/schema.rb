@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_17_181839) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_21_192219) do
   create_table "addresses", force: :cascade do |t|
     t.string "street"
     t.integer "number"
@@ -22,6 +22,20 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_181839) do
     t.datetime "updated_at", null: false
     t.integer "inn_id"
     t.index ["inn_id"], name: "index_addresses_on_inn_id"
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "full_name"
+    t.string "cpf"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
 
   create_table "inns", force: :cascade do |t|
@@ -62,7 +76,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_181839) do
 
   create_table "reservations", force: :cascade do |t|
     t.integer "room_id", null: false
-    t.integer "user_id", null: false
+    t.integer "customer_id", null: false
     t.date "checkin_date"
     t.date "checkout_date"
     t.integer "guests_number"
@@ -70,8 +84,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_181839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "total_price", default: "0.0"
+    t.string "code"
+    t.index ["customer_id"], name: "index_reservations_on_customer_id"
     t.index ["room_id"], name: "index_reservations_on_room_id"
-    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -110,7 +125,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_181839) do
   add_foreign_key "inns", "payment_methods"
   add_foreign_key "inns", "users"
   add_foreign_key "period_prices", "rooms"
+  add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "rooms"
-  add_foreign_key "reservations", "users"
   add_foreign_key "rooms", "inns"
 end

@@ -1,11 +1,22 @@
 <h3>Detalhes da Reserva</h3>
-<p><strong>Quarto:</strong> <%= room.name %></p>
-<p><strong>Check-in:</strong> <%= reservation.checkin_date %></p>
-<p><strong>Check-out:</strong> <%= reservation.checkout_date %></p>
+<h4><%= Reservation.model_name.human %> <%= reservation.code %></h4>
+<p><strong>Quarto:</strong> <%= reservation.room.name %> - <%= reservation.room.inn.trade_name %></p>
+<p><strong>Data de Check-in:</strong> <%= I18n.localize reservation.checkin_date %></p>
+<p><strong>Data de Check-out:</strong> <%= I18n.localize reservation.checkout_date %></p>
 <p><strong>Número de Hóspedes:</strong> <%= reservation.guests_number %></p>
 
 <% if defined?(reservation.total_price) %>
   <p><strong>Total a Pagar:</strong> <%= number_to_currency(reservation.total_price) %></p>
+<% end %>
+
+<h4>Forma de Pagamento:</h4>
+<ul>
+  <li><%= reservation.room.inn.payment_method.name %></li>
+</ul>
+<p><strong>Status da Reserva:</strong> <%= t reservation.status %></p>
+<% if reservation.confirmed? && current_customer == reservation.customer && (reservation.created_at + 7.days).after?(Time.zone.now) %>
+  <%= button_to 'Cancelar Reserva', canceled_reservation_path(reservation) %>
+  <%= Time.zone.now %>
 <% end %>
 
 

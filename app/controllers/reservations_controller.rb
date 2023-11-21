@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_customer!, only: [:confirm_reservation]
   before_action :set_room, only: [:show, :new, :create]
   
   def show
@@ -7,12 +7,11 @@ class ReservationsController < ApplicationController
   end
 
   def new
-    @reservation = @room.reservations.build(user: current_user)
+    @reservation = @room.reservations.build(customer: current_customer)
   end
 
   def create
     @reservation = @room.reservations.build(reservation_params)
-    @reservation.user = current_user
 
     if @reservation.valid?
       check_availability
@@ -25,6 +24,7 @@ class ReservationsController < ApplicationController
   def confirm_reservation
     @reservation = Reservation.new(session[:reservation_details])
     @room = @reservation.room
+    @reservation.customer = current_customer
 
     if @reservation.save
       @reservation.confirmed!
@@ -34,6 +34,18 @@ class ReservationsController < ApplicationController
     else
       flash[:alert] = 'Reserva não efetuada.'
       redirect_to new_inn_room_reservation_path(inn_id: @room.inn.id, room_id: @room.id)
+    end
+  end
+
+  def index
+    @reservations = current_customer.reservations
+  end
+
+  def canceled
+    @reservation = Reservation.find(params[:id])
+    if (@reservation.created_at + 7.days).after?(Time.zone.now)
+      @reservation.canceled!
+      redirect_to reservations_path
     end
   end
 

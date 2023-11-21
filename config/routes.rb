@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :customers
   devise_for :users
   root to: 'home#index'
   resources :users, only: [:new, :create]
@@ -11,6 +12,9 @@ Rails.application.routes.draw do
         get 'confirm_reservation', on: :collection
       end
     end
+  end
+  resources :reservations, only: [:index] do
+    post 'canceled', on: :member
   end
   resources :cities, only: [:show]
 end

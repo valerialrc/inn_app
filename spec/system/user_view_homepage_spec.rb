@@ -99,8 +99,6 @@ describe 'Usuário visita tela inicial' do
     expect(page).to have_selector('#recent_inns', text: 'Pousada Silva - Boituva')
     expect(page).not_to have_content('Não existem pousadas cadastrados')
     expect(page).to have_link('Pousada das Pedras - BH')
-
-
   end
 
   it 'e não existem pousadas ativas cadastradas' do 
