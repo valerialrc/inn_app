@@ -17,7 +17,9 @@
           <li><%= room.has_safe ? 'Cofre' : 'Sem cofre' %></li>
           <li><%= room.is_accessible ? 'Acessível para pessoas com deficiência' : 'Não acessível para pessoas com deficiência' %></li>
         </ul>
-        <%=button_to('Reservar', new_inn_room_reservation_path(@inn, room), method: :get) %>
+        <% if !user_signed_in? %>
+          <%=button_to('Reservar', new_inn_room_reservation_path(@inn, room), method: :get) %>
+        <% end %>
       </div>
     <% end %>
   </div>

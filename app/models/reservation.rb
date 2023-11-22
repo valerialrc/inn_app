@@ -1,18 +1,19 @@
 class Reservation < ApplicationRecord
   belongs_to :room
   belongs_to :customer, optional: true
+  has_one :active_reservation
 
   before_validation :calculate_total_price, on: :create
   before_validation :generate_code, on: :create
 
   validates :checkin_date, :checkout_date, :guests_number, :status, :code, presence: true
 
-  validate :checkin_date_is_future
-  validate :checkout_date_is_future
+  validate :checkin_date_is_future, on: :create
+  validate :checkout_date_is_future, on: :create
   validate :checkout_date_is_after_checkin_date
   validate :no_date_overlap, on: :create
   validate :max_occupancy
-  enum status: { pending: 0, confirmed: 5, canceled: 9 }
+  enum status: { pending: 0, confirmed: 5, active: 6, canceled: 9 }
 
   private
 

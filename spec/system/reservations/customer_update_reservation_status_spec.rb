@@ -1,7 +1,7 @@
 require 'rails_helper'
 include ActiveSupport::Testing::TimeHelpers
 
-describe 'Usuário quer cancelar reserva' do
+describe 'Cliente quer cancelar reserva' do
   it 'e está no prazo de 7 dias' do
     # Arrange
     create_inn

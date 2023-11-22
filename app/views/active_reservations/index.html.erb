@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
-  <h1>Reservas</h1>
+  <h1>Reservas Ativas</h1>
   <% if @reservations.empty? %>
-    Sua pousada ainda não possui reservas.
+    Sua pousada ainda não possui reservas ativas.
   <% else %>
     <div class="room-container">        
     <% @reservations.each do |reservation| %>
@@ -12,9 +12,9 @@
     </div>
   <% end %>
 <% elsif customer_signed_in? %>
-  <h1>Minhas Reservas</h1>
+  <h1>Minhas Reservas Ativas</h1>
   <% if @reservations.empty? %>
-    Você ainda não fez nenhuma reserva.
+    Você ainda não fez check-in em nenhuma reserva.
   <% else %>
     <div class="room-container">        
     <% @reservations.each do |reservation| %>
