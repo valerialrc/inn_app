@@ -10,13 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_22_172445) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_25_183524) do
+  create_table "accept_payment_withs", force: :cascade do |t|
+    t.integer "payment_method_id", null: false
+    t.integer "inn_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "accept"
+    t.index ["inn_id"], name: "index_accept_payment_withs_on_inn_id"
+    t.index ["payment_method_id"], name: "index_accept_payment_withs_on_payment_method_id"
+  end
+
   create_table "active_reservations", force: :cascade do |t|
     t.datetime "checkin_date"
     t.datetime "checkout_date"
     t.integer "reservation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "total_price", default: "0.0"
+    t.string "payment_method"
     t.index ["reservation_id"], name: "index_active_reservations_on_reservation_id"
   end
 
@@ -92,8 +104,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_22_172445) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "total_price", default: "0.0"
     t.string "code"
+    t.decimal "total_price", default: "0.0"
     t.index ["customer_id"], name: "index_reservations_on_customer_id"
     t.index ["room_id"], name: "index_reservations_on_room_id"
   end
@@ -130,6 +142,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_22_172445) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "accept_payment_withs", "inns"
+  add_foreign_key "accept_payment_withs", "payment_methods"
   add_foreign_key "active_reservations", "reservations"
   add_foreign_key "addresses", "inns"
   add_foreign_key "inns", "payment_methods"

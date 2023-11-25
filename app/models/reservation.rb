@@ -13,7 +13,7 @@ class Reservation < ApplicationRecord
   validate :checkout_date_is_after_checkin_date
   validate :no_date_overlap, on: :create
   validate :max_occupancy
-  enum status: { pending: 0, confirmed: 5, active: 6, canceled: 9 }
+  enum status: { pending: 0, confirmed: 5, active: 6, closed: 7, canceled: 9 }
 
   private
 

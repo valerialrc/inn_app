@@ -67,6 +67,8 @@ class ReservationsController < ApplicationController
       @reservation.active!
       ActiveReservation.create!(reservation: @reservation, checkin_date: Time.now)
       redirect_to active_reservations_url
+    else
+      redirect_to reservations_path, alert: 'Você só pode fazer check-in do cliente a partir da data da reserva.'
     end
   end
 

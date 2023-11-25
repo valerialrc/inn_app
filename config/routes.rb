@@ -16,7 +16,10 @@ Rails.application.routes.draw do
     post 'canceled', on: :member
     post 'active', on: :member
   end
-  resources :active_reservations, only: [:index]
+  resources :active_reservations, only: [:index] do
+    post 'closed', on: :member
+  end
+  resources :closed_reservations, only: [:index]
 
   resources :cities, only: [:show]
 end

@@ -2,6 +2,8 @@ class Room < ApplicationRecord
   belongs_to :inn
   has_many :period_prices, dependent: :destroy
   has_many :reservations, dependent: :destroy
+  has_many :active_reservations, through: :reservations
+
 
   validates :name, :description, :dimension, :max_occupancy, :daily_rate, :inn_id, presence: true
 

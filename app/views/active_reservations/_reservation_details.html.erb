@@ -1,8 +1,8 @@
 <h3>Detalhes da Reserva</h3>
 <h4><%= Reservation.model_name.human %> <%= reservation.code %></h4>
 <p><strong>Quarto:</strong> <%= reservation.room.name %> - <%= reservation.room.inn.trade_name %></p>
-<p><strong>Data de Check-in:</strong> <%= I18n.localize reservation.checkin_date %></p>
-<p><strong>Data de Check-out:</strong> <%= I18n.localize reservation.checkout_date %></p>
+<p><strong>Data de Check-in:</strong> <%= I18n.localize reservation.active_reservation.checkin_date.to_date %></p>
+<p><strong>Data de Check-out:</strong> <%= reservation.active_reservation.checkout_date.nil? ? 'Pendente' : I18n.localize(reservation.active_reservation.checkout_date).to_date %></p>
 <p><strong>Número de Hóspedes:</strong> <%= reservation.guests_number %></p>
 
 <% if defined?(reservation.total_price) %>
@@ -21,6 +21,6 @@
   <% end %>
   <% if current_user == reservation.room.inn.user \
       && ((reservation.checkin_date).before?(Time.zone.now))%>
-    <%= button_to 'Realizar Check-in do Cliente', active_reservation_path(reservation) %>
+    <%= button_to 'Realizar Check-out do Cliente', closed_active_reservation_path(reservation) %>
   <% end %>
 <% end %>

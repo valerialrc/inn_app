@@ -1,0 +1,27 @@
+<% if user_signed_in? %>
+  <h1>Estadias Finalizadas</h1>
+  <% if @reservations.empty? %>
+    Sua pousada ainda não possui estadias finalizadas.
+  <% else %>
+    <div class="room-container">        
+    <% @reservations.each do |reservation| %>
+      <div class="room-card">
+        <%= render 'reservation_details', reservation: reservation, room: reservation.room %>
+      </div>
+    <% end %>
+    </div>
+  <% end %>
+<% elsif customer_signed_in? %>
+  <h1>Minhas Estadias Finalizadas</h1>
+  <% if @reservations.empty? %>
+    Você ainda não fez check-out em nenhuma reserva.
+  <% else %>
+    <div class="room-container">        
+    <% @reservations.each do |reservation| %>
+      <div class="room-card">
+        <%= render 'reservation_details', reservation: reservation, room: reservation.room %>
+      </div>
+    <% end %>
+    </div>
+  <% end %>
+<% end %>
