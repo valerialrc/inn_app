@@ -2,7 +2,7 @@
 
 <p>Por favor, revise os detalhes da sua reserva antes de confirmar:</p>
 
-<%= render 'reservation_details', reservation: @reservation, room: @room %>
+<%= render 'shared/reservation_details', reservation: @reservation, room: @room %>
 
 <%=button_to('Confirmar Reserva', confirm_reservation_inn_room_reservations_path(@room.inn, @room, @reservation), method: :get) %>
 

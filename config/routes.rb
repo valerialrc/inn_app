@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   resources :users, only: [:new, :create]
   resources :inns, only: [:show, :new, :create, :edit, :update] do
+    resources :reviews, only: [:index]
     get 'search', on: :collection
     resources :rooms, except: [:destroy] do
       resources :period_prices, only: [:new, :create]

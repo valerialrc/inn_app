@@ -1,124 +1,7 @@
 require 'rails_helper'
 
-describe 'Cliente deseja avaliar a estadia' do
-  it 'e procura a opção' do
-    # Arrange
-    create_inn
-    inn = Inn.first
-    user = User.first
-
-    room = Room.create!(name: 'Quarto Premium',
-                        description: 'Um quarto espaçoso e confortável',
-                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
-                        has_bathroom: true, has_balcony: false,
-                        has_air_conditioning: true, has_tv: true,
-                        has_wardrobe: true, has_safe: false, is_accessible: true,
-                        is_available: true, inn: inn)
-
-    customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
-                                email: 'joao@email.com', password: 'password')
-
-    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
-                        checkout_date:1.week.from_now, guests_number: 2, status: :closed)
-
-    # Act
-    login_as(customer, :scope => :customer)
-    visit root_path
-    click_on 'Minhas Reservas'
-    room_cards = all('.room-card')
-    within room_cards[0] do
-      click_on "Reserva #{reservation.code}"
-    end
-
-    # Assert
-    expect(current_path).to eq inn_room_reservation_path(inn, room, reservation)
-    expect(page).to have_content 'Status da Reserva: Finalizada'
-    expect(Reservation.where(status: :closed).count).to eq 1
-    expect(page).to have_link 'Avaliar Estadia'
-  end
-
-  it 'e visualiza a página com campo para nota e comentário' do
-    # Arrange
-    create_inn
-    inn = Inn.first
-    user = User.first
-
-    room = Room.create!(name: 'Quarto Premium',
-                        description: 'Um quarto espaçoso e confortável',
-                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
-                        has_bathroom: true, has_balcony: false,
-                        has_air_conditioning: true, has_tv: true,
-                        has_wardrobe: true, has_safe: false, is_accessible: true,
-                        is_available: true, inn: inn)
-
-    customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
-                                email: 'joao@email.com', password: 'password')
-
-    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
-                        checkout_date:1.week.from_now, guests_number: 2, status: :closed)
-
-    # Act
-    login_as(customer, :scope => :customer)
-    visit root_path
-    click_on 'Minhas Reservas'
-    room_cards = all('.room-card')
-    within room_cards[0] do
-      click_on "Reserva #{reservation.code}"
-    end
-    click_on "Avaliar Estadia"
-
-    # Assert
-    expect(current_path).to eq new_reservation_review_path(reservation)
-    expect(page).to have_content 'Avaliar Estadia'
-    expect(page).to have_field 'Avaliação'
-    expect(page).to have_field 'Comentário'
-  end
-
-  it 'e avalia com sucesso' do
-    # Arrange
-    create_inn
-    inn = Inn.first
-    user = User.first
-
-    room = Room.create!(name: 'Quarto Premium',
-                        description: 'Um quarto espaçoso e confortável',
-                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
-                        has_bathroom: true, has_balcony: false,
-                        has_air_conditioning: true, has_tv: true,
-                        has_wardrobe: true, has_safe: false, is_accessible: true,
-                        is_available: true, inn: inn)
-
-    customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
-                                email: 'joao@email.com', password: 'password')
-
-    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
-                        checkout_date:1.week.from_now, guests_number: 2, status: :closed)
-
-    # Act
-    login_as(customer, :scope => :customer)
-    visit root_path
-    click_on 'Minhas Reservas'
-    room_cards = all('.room-card')
-    within room_cards[0] do
-      click_on "Reserva #{reservation.code}"
-    end
-    click_on "Avaliar Estadia"
-    select '5', from: 'Avaliação (1 a 5)'
-    fill_in 'Comentário', with: 'Excelente estadia!'
-    click_button 'Enviar Avaliação'
-
-    # Assert
-    expect(Review.count).to eq(1)
-    review = Review.first
-    expect(review.score).to eq(5)
-    expect(review.description).to eq('Excelente estadia!')
-    expect(current_path).to eq reservation_path(reservation)
-    expect(page).not_to have_content 'Avaliar Estadia'
-    expect(page).to have_content 'Nota: 5'
-    expect(page).to have_content 'Comentário: Excelente estadia!'
-  end
-
-  it ', avalia com sucesso e visualiza resposta do dono' do
+describe 'Usuário visualiza média da pousada' do
+  it 'na página de detalhes da pousada' do
     # Arrange
     create_inn
     inn = Inn.first
@@ -143,14 +26,125 @@ describe 'Cliente deseja avaliar a estadia' do
     answer = Answer.create!(description: 'Obrigada!', user: user, review: review)
 
     # Act
-    login_as(customer, :scope => :customer)
     visit root_path
-    click_on 'Minhas Reservas'
+    click_on 'Pousada das Pedras'
 
     # Assert
-    expect(current_path).to eq reservations_path
-    expect(page).to have_content 'Nota: 5'
-    expect(page).to have_content 'Comentário: Excelente estadia!'
-    expect(page).to have_content 'Resposta do Dono: Obrigada!'
+    expect(page).to have_content 'Média: 5'
+  end
+
+  it 'e as 3 últimas avaliações' do
+    # Arrange
+    create_inn
+    inn = Inn.first
+    user = User.first
+
+    room = Room.create!(name: 'Quarto Premium',
+                        description: 'Um quarto espaçoso e confortável',
+                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
+                        has_bathroom: true, has_balcony: false,
+                        has_air_conditioning: true, has_tv: true,
+                        has_wardrobe: true, has_safe: false, is_accessible: true,
+                        is_available: true, inn: inn)
+
+    customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
+                                email: 'joao@email.com', password: 'password')
+
+    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
+                        checkout_date:1.week.from_now, guests_number: 2, status: :closed)
+
+    first_review = Review.create!(reservation: reservation, score: 5, description: 'Excelente estadia!')
+    second_review = Review.create!(reservation: reservation, score: 4, description: 'Boa estadia!')
+    third_review = Review.create!(reservation: reservation, score: 3, description: 'Estadia ruim!')
+    fourth_review = Review.create!(reservation: reservation, score: 2, description: 'Estadia péssima!')
+
+    # Act
+    visit root_path
+    click_on 'Pousada das Pedras'
+
+    # Assert
+    expect(page).to have_content 'Média: 3.5'
+    expect(page).not_to have_content 'Excelente estadia!'
+    expect(page).to have_content 'Boa estadia!'
+    expect(page).to have_content 'Estadia ruim!'
+    expect(page).to have_content 'Estadia péssima!'
+  end
+
+  it 'e existe opção para ver todas as avaliações em outra página' do
+    # Arrange
+    create_inn
+    inn = Inn.first
+    user = User.first
+
+    room = Room.create!(name: 'Quarto Premium',
+                        description: 'Um quarto espaçoso e confortável',
+                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
+                        has_bathroom: true, has_balcony: false,
+                        has_air_conditioning: true, has_tv: true,
+                        has_wardrobe: true, has_safe: false, is_accessible: true,
+                        is_available: true, inn: inn)
+
+    customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
+                                email: 'joao@email.com', password: 'password')
+
+    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
+                        checkout_date:1.week.from_now, guests_number: 2, status: :closed)
+
+    first_review = Review.create!(reservation: reservation, score: 5, description: 'Excelente estadia!')
+
+    # Act
+    visit root_path
+    click_on 'Pousada das Pedras'
+
+    # Assert
+    expect(page).to have_content 'Média: 5'
+    expect(page).to have_link 'Ver todas as avaliações'
+  end
+
+  it 'e navega para ver todas as avaliações' do
+    # Arrange
+    create_inn
+    inn = Inn.first
+    user = User.first
+
+    room = Room.create!(name: 'Quarto Premium',
+                        description: 'Um quarto espaçoso e confortável',
+                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
+                        has_bathroom: true, has_balcony: false,
+                        has_air_conditioning: true, has_tv: true,
+                        has_wardrobe: true, has_safe: false, is_accessible: true,
+                        is_available: true, inn: inn)
+
+    customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
+                                email: 'joao@email.com', password: 'password')
+
+    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.day.from_now,
+                        checkout_date:2.days.from_now, guests_number: 2, status: :closed)
+
+    second_reservation = Reservation.create!(room: room, customer: customer, checkin_date: 3.days.from_now,
+                        checkout_date: 4.days.from_now, guests_number: 2, status: :closed)
+
+    third_reservation = Reservation.create!(room: room, customer: customer, checkin_date: 5.days.from_now,
+                        checkout_date: 6.days.from_now, guests_number: 2, status: :closed)
+
+    fourth_reservation = Reservation.create!(room: room, customer: customer, checkin_date: 7.days.from_now,
+                        checkout_date: 8.days.from_now, guests_number: 2, status: :closed)
+
+    first_review = Review.create!(reservation: reservation, score: 5, description: 'Excelente estadia!')
+    second_review = Review.create!(reservation: second_reservation, score: 4, description: 'Boa estadia!')
+    third_review = Review.create!(reservation: third_reservation, score: 3, description: 'Estadia ruim!')
+    fourth_review = Review.create!(reservation: fourth_reservation, score: 2, description: 'Estadia péssima!')
+
+    # Act
+    visit root_path
+    click_on 'Pousada das Pedras'
+    click_on 'Ver todas as avaliações'
+
+    # Assert
+    expect(current_path).to eq inn_reviews_path(inn)
+    expect(page).to have_content 'Excelente estadia!'
+    expect(page).to have_content 'Boa estadia!'
+    expect(page).to have_content 'Estadia ruim!'
+    expect(page).to have_content 'Estadia péssima!'
   end
 end

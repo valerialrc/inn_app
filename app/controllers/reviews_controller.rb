@@ -1,5 +1,4 @@
 class ReviewsController < ApplicationController
-  before_action :authenticate_user!, only: [:index]
   def new
     @reservation = Reservation.find(params[:reservation_id])
     @review = @reservation.build_review
@@ -18,8 +17,14 @@ class ReviewsController < ApplicationController
   end
 
   def index
-    @reviews = current_user.inn.rooms.includes(reservations: :review).map { |room| room.reservations.map(&:review) }.flatten.compact
-    @reservations = @reviews.flat_map { |review| review.reservation }
+    if user_signed_in?
+      @reviews = current_user.inn.reviews
+      @reservations = @reviews.map(&:reservation).uniq
+    else
+      @inn = Inn.find(params[:inn_id])
+      @reviews = @inn.reviews
+      @reservations = @reviews.map(&:reservation).uniq
+    end
   end
 
   private

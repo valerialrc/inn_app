@@ -30,7 +30,26 @@
     Não aceita animais
   <% end %>
 </div>
+<div>
+  <strong>Avaliação Média: </strong> <%= @inn.average_rating || 'Ainda não possui média.' %>
 
+  <h3>Últimas Avaliações</h3>
+  <div class="room-container">
+    <% @last_reviews.each do |review| %>
+      <div class="room-card">
+        <h4>Avaliação:</h4>
+        <ul>
+          <li><strong>Quarto:</strong> <%= link_to(review.reservation.room.name, inn_room_path(@inn, review.reservation.room)) %></li>
+          <li><strong>Reserva:</strong> <%= link_to(review.reservation.code, inn_room_reservation_path(@inn, review.reservation.room, review.reservation))%></li>
+          <li><strong>Nota:</strong> <%= review.score %></li>
+          <li><strong>Comentário:</strong> <%= review.description %></li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to('Ver todas as avaliações', inn_reviews_path(@inn))%>
+</div>
 <% if user_signed_in? && @inn.user_id.eql?(current_user.id) %>
   <h3>Quartos Cadastrados</h3>
   <% if @inn.rooms.any?(&:is_available?) %>

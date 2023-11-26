@@ -4,6 +4,7 @@ class InnsController < ApplicationController
   skip_before_action :check_for_inn, only: [:new, :create, :edit, :update]
 
   def show
+    @last_reviews = @inn.reviews.last(3)
   end
 
   def new

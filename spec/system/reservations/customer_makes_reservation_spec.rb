@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Usuário faz reserva' do
+describe 'Cliente faz reserva' do
   it 'a partir da página de detalhes da pousada' do
     # Arrange
     create_inn
@@ -72,7 +72,7 @@ describe 'Usuário faz reserva' do
     expect(Reservation.all.length).to eq 0
     expect(page).to have_content('Total a Pagar: R$ 1.400,00')
     expect(page).to have_content('Quarto: Quarto Premium - Pousada das Pedras')
-    expect(page).to have_content(/Forma de Pagamento:\nPix/)
+    expect(page).to have_content('Forma de Pagamento: Pix')
   end
 
   it 'a partir da página de detalhes da pousada com preço por período cadastrado' do

@@ -7,7 +7,19 @@
     <div class="room-container">        
     <% @reservations.each do |reservation| %>
       <div class="room-card">
-        <%= render 'reservation_details', reservation: reservation, room: reservation.room %>
+        <%= render 'shared/reservation_details', reservation: reservation, room: reservation.room %>
+      </div>
+    <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <% if @reviews.empty? %>
+    A pousada ainda não possui avaliações.
+  <% else %>
+    <div class="room-container">        
+    <% @reservations.each do |reservation| %>
+      <div class="room-card">
+        <%= render 'shared/reservation_details', reservation: reservation, room: reservation.room %>
       </div>
     <% end %>
     </div>

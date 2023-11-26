@@ -6,23 +6,45 @@
     <% end %>
   </ul>
 <% end %>
-
 <h3>Detalhes da Reserva</h3>
 <% if reservation.id %>
   <h4><%= link_to("#{Reservation.model_name.human} #{reservation.code}", inn_room_reservation_path(reservation.room.inn, reservation.room, reservation)) %></h4>
 <% end %>
 <p><strong>Quarto:</strong> <%= reservation.room.name %> - <%= reservation.room.inn.trade_name %></p>
-<p><strong>Data de Check-in:</strong> <%= I18n.localize reservation.checkin_date %></p>
-<p><strong>Data de Check-out:</strong> <%= I18n.localize reservation.checkout_date %></p>
+<p><strong>Data de Check-in:</strong> 
+  <% if current_page?(active_reservations_path) || current_page?(closed_reservations_path) %>
+    <%= I18n.localize reservation.active_reservation.checkin_date.to_date %>
+  <% else %>
+    <%= I18n.localize reservation.checkin_date %>
+  <% end %>
+</p>
+<p><strong>Data de Check-out:</strong> 
+  <% if current_page?(active_reservations_path) || current_page?(closed_reservations_path) %>
+    <%= reservation.active_reservation.checkout_date.nil? ? 'Pendente' : I18n.localize(reservation.active_reservation.checkout_date).to_date %></p>
+  <% else %>
+    <%= I18n.localize reservation.checkout_date %>
+  <% end %>
+</p>
 <p><strong>Número de Hóspedes:</strong> <%= reservation.guests_number %></p>
 
-<% if defined?(reservation.total_price) %>
-  <p><strong>Total a Pagar:</strong> <%= number_to_currency(reservation.total_price) %></p>
-<% end %>
+<p><strong>Total a Pagar:</strong> 
+  <% if current_page?(active_reservations_path) || current_page?(closed_reservations_path) %>
+    <%= number_to_currency(reservation.active_reservation.total_price) %>
+  <% else %>
+    <%= number_to_currency(reservation.total_price) %>
+  <% end %>
+</p>
 
 <h4>Forma de Pagamento:</h4>
 <ul>
-  <li><%= reservation.room.inn.payment_method.name %></li>
+<p><strong>Forma de Pagamento:</strong> 
+  <% if current_page?(active_reservations_path) || current_page?(closed_reservations_path) %>
+    <%= reservation.active_reservation.payment_method %>
+  <% else %>
+  <%= reservation.room.inn.payment_method.name %>
+  <% end %>
+</p>
+
 </ul>
 <p><strong>Status da Reserva:</strong> <%= t reservation.status %></p>
 <% if reservation.confirmed? %>
@@ -32,6 +54,11 @@
   <% end %>
   <% if current_user == reservation.room.inn.user %>
     <%= button_to 'Realizar Check-in do Cliente', active_reservation_path(reservation) %>
+  <% end %>
+<% elsif reservation.active? %>
+  <% if current_user == reservation.room.inn.user \
+        && ((reservation.active_reservation.checkin_date).before?(Time.zone.now))%>
+    <%= button_to 'Realizar Check-out do Cliente', closed_active_reservation_path(reservation.active_reservation) %>
   <% end %>
 <% elsif reservation.closed? %>
   <% if current_customer == reservation.customer %>
@@ -43,6 +70,9 @@
         <li><strong>Nota:</strong> <%= reservation.review.score %></li>
         <li><strong>Comentário:</strong> <%= reservation.review.description %></li>
       </ul>
+      <% unless reservation.review.answer.nil? %>
+        <p><strong>Resposta do Dono:</strong> <%= reservation.review.answer.description %></p>
+      <% end %>
     <% end %>
   <% elsif current_user == reservation.room.inn.user %>
     <% if reservation.review.nil? %>
@@ -59,5 +89,18 @@
         <p><strong>Resposta do Dono:</strong> <%= reservation.review.answer.description %></p>
       <% end %>
     <% end %>
+  <% else %>
+    <% if reservation.review.nil? %>
+        Cliente ainda não avaliou a estadia.
+      <% else %>
+        <h4>Avaliação:</h4>
+        <ul>
+          <li><strong>Nota:</strong> <%= reservation.review.score %></li>
+          <li><strong>Comentário:</strong> <%= reservation.review.description %></li>
+        </ul>
+        <% unless reservation.review.answer.nil? %>
+          <p><strong>Resposta do Dono:</strong> <%= reservation.review.answer.description %></p>
+        <% end %>
+      <% end %>
   <% end %>
 <% end %>

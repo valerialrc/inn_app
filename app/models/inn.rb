@@ -4,6 +4,7 @@ class Inn < ApplicationRecord
   has_many :reservations, through: :rooms
   belongs_to :user
   belongs_to :payment_method
+  has_many :reviews, through: :rooms
 
   accepts_nested_attributes_for :address
 
@@ -12,4 +13,8 @@ class Inn < ApplicationRecord
             :checkout_time, :policies, presence: true   
   
   validates_uniqueness_of :user_id
+
+  def average_rating
+    reviews.average(:score)
+  end
 end

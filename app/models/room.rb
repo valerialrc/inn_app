@@ -3,6 +3,7 @@ class Room < ApplicationRecord
   has_many :period_prices, dependent: :destroy
   has_many :reservations, dependent: :destroy
   has_many :active_reservations, through: :reservations
+  has_many :reviews, through: :reservations
 
 
   validates :name, :description, :dimension, :max_occupancy, :daily_rate, :inn_id, presence: true
