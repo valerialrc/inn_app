@@ -1,10 +1,11 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_customer!, only: [:confirm_reservation]
-  before_action :set_room, only: [:show, :new, :create]
+  before_action :set_room, only: [:new, :create]
   before_action :check_user, only: [:new]
   
   def show
     @reservation = Reservation.find(params[:id])
+    @room = @reservation.room
 
     unless current_customer == @reservation.customer || current_user == @reservation.room.inn.user
       return redirect_to root_path, alert: 'Acesso negado. Você não tem permissão para acessar esta página.'

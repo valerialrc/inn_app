@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_25_183524) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_26_144637) do
   create_table "accept_payment_withs", force: :cascade do |t|
     t.integer "payment_method_id", null: false
     t.integer "inn_id", null: false
@@ -43,6 +43,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_183524) do
     t.datetime "updated_at", null: false
     t.integer "inn_id"
     t.index ["inn_id"], name: "index_addresses_on_inn_id"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.string "description"
+    t.integer "review_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_answers_on_review_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -110,6 +120,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_183524) do
     t.index ["room_id"], name: "index_reservations_on_room_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "score"
+    t.text "description"
+    t.integer "reservation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_reviews_on_reservation_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -146,10 +165,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_183524) do
   add_foreign_key "accept_payment_withs", "payment_methods"
   add_foreign_key "active_reservations", "reservations"
   add_foreign_key "addresses", "inns"
+  add_foreign_key "answers", "reviews"
+  add_foreign_key "answers", "users"
   add_foreign_key "inns", "payment_methods"
   add_foreign_key "inns", "users"
   add_foreign_key "period_prices", "rooms"
   add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "rooms"
+  add_foreign_key "reviews", "reservations"
   add_foreign_key "rooms", "inns"
 end

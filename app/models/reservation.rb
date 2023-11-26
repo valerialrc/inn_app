@@ -2,6 +2,7 @@ class Reservation < ApplicationRecord
   belongs_to :room
   belongs_to :customer, optional: true
   has_one :active_reservation
+  has_one :review
 
   before_validation :calculate_total_price, on: :create
   before_validation :generate_code, on: :create

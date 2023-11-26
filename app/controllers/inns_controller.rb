@@ -8,7 +8,7 @@ class InnsController < ApplicationController
 
   def new
     @inn = Inn.new
-    @inn.build_address 
+    @inn.build_address
   end
 
   def create

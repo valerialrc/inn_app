@@ -20,6 +20,7 @@
           <%=link_to('Reservas', reservations_path) %>
           <%=link_to('Estadias Ativas', active_reservations_path) %>
           <%=link_to('Estadias Finalizadas', closed_reservations_path) %>
+          <%=link_to('Avaliações', reviews_path) %>
           <%=button_to('Sair', destroy_user_session_path, method: :delete) %>
         <% elsif customer_signed_in? %>
           <%= current_customer.email %>

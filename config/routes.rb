@@ -12,10 +12,14 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :reservations, only: [:index] do
+  resources :reservations, only: [:index, :show] do
+    resources :reviews, only: [:new, :create]
     post 'canceled', on: :member
     post 'active', on: :member
+    resources :reviews, only: [:new, :create]
   end
+
+  resources :reviews, only: [:index]
   resources :active_reservations, only: [:index] do
     post 'closed', on: :member
   end

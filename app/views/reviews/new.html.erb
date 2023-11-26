@@ -1,0 +1,27 @@
+<h1>Avaliar Estadia</h1>
+
+<% if @review.errors.any? %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @review.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<%= form_with(model: [@reservation, @review], local: true)  do |form| %>
+  <div>
+    <%= form.label :score, 'Avaliação (1 a 5)' %>
+    <%= form.select :score, (1..5).to_a %>
+  </div>
+
+  <div>
+    <%= form.label :description, 'Comentário' %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit 'Enviar Avaliação' %>
+  </div>
+<% end %>

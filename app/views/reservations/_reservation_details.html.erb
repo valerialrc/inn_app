@@ -8,7 +8,9 @@
 <% end %>
 
 <h3>Detalhes da Reserva</h3>
-<h4><%= Reservation.model_name.human %> <%= reservation.code %></h4>
+<% if reservation.id %>
+  <h4><%= link_to("#{Reservation.model_name.human} #{reservation.code}", inn_room_reservation_path(reservation.room.inn, reservation.room, reservation)) %></h4>
+<% end %>
 <p><strong>Quarto:</strong> <%= reservation.room.name %> - <%= reservation.room.inn.trade_name %></p>
 <p><strong>Data de Check-in:</strong> <%= I18n.localize reservation.checkin_date %></p>
 <p><strong>Data de Check-out:</strong> <%= I18n.localize reservation.checkout_date %></p>
@@ -30,5 +32,15 @@
   <% end %>
   <% if current_user == reservation.room.inn.user %>
     <%= button_to 'Realizar Check-in do Cliente', active_reservation_path(reservation) %>
+  <% end %>
+<% elsif reservation.closed? %>
+  <% if current_customer == reservation.customer %>
+    <% if reservation.review.nil? %>
+      <%= link_to 'Avaliar Estadia', new_reservation_review_path(reservation) %>
+    <% else %>
+      <h4>Avaliação:</h4>
+      <p><strong>Nota:</strong> <%= reservation.review.score %></p>
+      <p><strong>Comentário:</strong> <%= reservation.review.description %></p>
+    <% end %>
   <% end %>
 <% end %>

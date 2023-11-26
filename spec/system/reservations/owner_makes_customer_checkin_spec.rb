@@ -60,7 +60,7 @@ describe 'Dono quer fazer check-in do cliente' do
     customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
                                 email: 'joao@email.com', password: 'password')
 
-    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
+    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.day.from_now.in_time_zone,
                         checkout_date:1.week.from_now, guests_number: 2, status: :confirmed)
 
     # Act
@@ -73,7 +73,7 @@ describe 'Dono quer fazer check-in do cliente' do
     end
 
     # Assert
-    expect((reservation.checkin_date).before?(Time.zone.now)).to eq false
+    expect((reservation.checkin_date).before?(Time.zone.now.to_date)).to eq false
     expect(current_path).to eq reservations_path
     expect(page).to have_content 'Status da Reserva: Confirmada'
     expect(page).to have_content 'Você só pode fazer check-in do cliente a partir da data da reserva.'

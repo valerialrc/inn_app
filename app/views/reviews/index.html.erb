@@ -1,0 +1,20 @@
+<h1>Avaliações<h1>
+
+<% if user_signed_in? %>
+  <% if @reviews.empty? %>
+    Sua pousada ainda não possui avaliações.
+  <% else %>
+    <div class="room-container">        
+    <% @reservations.each do |reservation| %>
+      <div class="room-card">
+        <%= render 'reservation_details', reservation: reservation, room: reservation.room %>
+      </div>
+    <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+
+<h4>Avaliação:</h4>
+  <p><strong>Nota:</strong> <%= reservation.review.score %></p>
+  <p><strong>Comentário:</strong> <%= reservation.review.description %></p>
