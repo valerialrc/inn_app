@@ -19,8 +19,8 @@
       || (current_user == reservation.room.inn.user && (reservation.checkin_date + 2.days).before?(Time.zone.now)))%>
     <%= button_to 'Cancelar Reserva', canceled_reservation_path(reservation) %>
   <% end %>
-  <% if current_user == reservation.room.inn.user \
-      && ((reservation.checkin_date).before?(Time.zone.now))%>
-    <%= button_to 'Realizar Check-out do Cliente', closed_active_reservation_path(reservation) %>
-  <% end %>
+<% end %>
+<% if current_user == reservation.room.inn.user \
+      && ((reservation.active_reservation.checkin_date).before?(Time.zone.now))%>
+  <%= button_to 'Realizar Check-out do Cliente', closed_active_reservation_path(reservation.active_reservation) %>
 <% end %>

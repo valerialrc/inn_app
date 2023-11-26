@@ -1,7 +1,7 @@
 class ActiveReservationsController < ApplicationController
   def index
     if user_signed_in?
-      @reservations = Reservation.where(id: current_user.inn.active_reservations)
+      @reservations = current_user.inn.reservations.where(status: :active)
     elsif customer_signed_in?
       @reservations = Reservation.where(id: current_customer.reservations.active_reservations)
     else

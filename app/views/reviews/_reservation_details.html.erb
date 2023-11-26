@@ -55,8 +55,6 @@
       </ul>
       <% if reservation.review.answer.nil? %>
         <%= link_to 'Responder Cliente', new_review_answer_path(reservation.review) %>
-      <% else %>
-        <p><strong>Resposta do Dono:</strong> <%= reservation.review.answer.description %></p>
       <% end %>
     <% end %>
   <% end %>

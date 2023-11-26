@@ -20,7 +20,7 @@ describe 'Dono faz check-out do cliente' do
                                 email: 'joao@email.com', password: 'password')
 
     reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.days.from_now,
-                        checkout_date:1.week.from_now, guests_number: 2, status: :confirmed)
+                        checkout_date:1.week.from_now, guests_number: 2, status: :active)
 
     travel_to 1.day.from_now
     ActiveReservation.create!(reservation: reservation, checkin_date: Time.zone.now)

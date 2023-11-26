@@ -1,0 +1,11 @@
+pt-BR:
+  activerecord:
+    models:
+      review: Avaliação
+      answer: Resposta
+    attributes:
+      review:
+        description: 'Comentário'
+        score: 'Avaliação'
+      answer:
+        description: 'Comentário'

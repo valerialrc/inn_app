@@ -13,12 +13,13 @@ class ReviewsController < ApplicationController
       redirect_to @reservation, notice: 'Avaliação enviada com sucesso.'
     else
       flash.now[:notice] = 'Avaliação não enviada.'
-      render 'new'
+      render :new
     end
   end
 
   def index
     @reviews = current_user.inn.rooms.includes(reservations: :review).map { |room| room.reservations.map(&:review) }.flatten.compact
+    @reservations = @reviews.flat_map { |review| review.reservation }
   end
 
   private

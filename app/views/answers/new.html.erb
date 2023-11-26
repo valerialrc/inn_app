@@ -1,0 +1,22 @@
+<h1>Responder Cliente</h1>
+
+<% if @answer.errors.any? %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @answer.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<%= form_with(model: [@review, @answer], local: true)  do |form| %>
+  <div>
+    <%= form.label :description, 'Comentário' %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit 'Enviar Resposta' %>
+  </div>
+<% end %>

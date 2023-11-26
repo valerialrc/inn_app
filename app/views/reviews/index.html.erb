@@ -1,4 +1,4 @@
-<h1>Avaliações<h1>
+<h1>Avaliações</h1>
 
 <% if user_signed_in? %>
   <% if @reviews.empty? %>
@@ -13,8 +13,3 @@
     </div>
   <% end %>
 <% end %>
-
-
-<h4>Avaliação:</h4>
-  <p><strong>Nota:</strong> <%= reservation.review.score %></p>
-  <p><strong>Comentário:</strong> <%= reservation.review.description %></p>

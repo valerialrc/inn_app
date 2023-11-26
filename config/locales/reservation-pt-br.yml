@@ -7,8 +7,14 @@ pt-BR:
   activerecord:
     models:
       reservation: Reserva
+      active_reservation: Reserva Ativa
     attributes:
       reservation:
         checkin_date: 'Data de Check-in'
         checkout_date: 'Data de Check-out'
         guests_number: 'Número de Hóspedes'
+      active_reservation:
+        checkin_date: 'Data de Check-in'
+        checkout_date: 'Data de Check-out'
+        total_price: 'Valor a Pagar'
+        payment_method: 'Forma de Pagamento'
