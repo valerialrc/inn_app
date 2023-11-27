@@ -38,6 +38,8 @@ describe "Inn API" do
       expect(json_response.keys).not_to include 'created_at'
       expect(json_response.keys).not_to include 'updated_at'
       expect(json_response.keys).not_to include 'cnpj'
+      expect(json_response["average_rating"]).to eq('')
+
     end
 
     it 'fail if inn not found' do
