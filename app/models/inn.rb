@@ -16,7 +16,7 @@ class Inn < ApplicationRecord
   validates_uniqueness_of :user_id
 
   def average_rating
-    reviews.average(:score)
+    reviews.exists? ? reviews.average(:score).to_f : ''
   end
 
   private

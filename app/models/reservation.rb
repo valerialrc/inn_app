@@ -9,6 +9,7 @@ class Reservation < ApplicationRecord
 
   validates :checkin_date, :checkout_date, :guests_number, :status, :code, presence: true
 
+  after_save :confirm_status
   validate :checkin_date_is_future, on: :create
   validate :checkout_date_is_future, on: :create
   validate :checkout_date_is_after_checkin_date
@@ -17,6 +18,12 @@ class Reservation < ApplicationRecord
   enum status: { pending: 0, confirmed: 5, active: 6, closed: 7, canceled: 9 }
 
   private
+
+  def confirm_status
+    if self.pending?
+      self.status = :confirmed
+    end
+  end
 
   def checkin_date_is_future
     if self.checkin_date.present? && self.checkin_date <= Date.today

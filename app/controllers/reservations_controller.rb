@@ -33,7 +33,6 @@ class ReservationsController < ApplicationController
     @reservation.customer = current_customer
 
     if @reservation.save
-      @reservation.confirmed!
       session[:reservation_details] = nil
       
       redirect_to inn_room_reservation_path(@room.inn, @room, @reservation), notice: 'Reserva confirmada com sucesso!'
@@ -76,7 +75,7 @@ class ReservationsController < ApplicationController
   private
 
   def check_availability
-    if @room.available_for_reservation?(@reservation)
+    if @room.is_available? && @room.inn.active?
       session[:reservation_details] = @reservation.attributes
 
       render :confirm_reservation

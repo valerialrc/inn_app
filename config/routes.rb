@@ -32,7 +32,11 @@ Rails.application.routes.draw do
 
   namespace :api do 
     namespace :v1 do
-      resources :inns, only: [:show, :index, :create]
+      resources :inns, only: [:show, :index, :create] do
+        resources :rooms, only: [:index] do
+          get 'check_availability', on: :member
+        end
+      end
     end
   end
 end

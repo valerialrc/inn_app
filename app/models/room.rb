@@ -23,9 +23,4 @@ class Room < ApplicationRecord
   def default_price
     daily_rate
   end
-
-  def available_for_reservation?(reservation)
-    return [false, 'Quarto não disponível para reserva.'] unless self.is_available?
-    return reservation.valid?
-  end
 end 
