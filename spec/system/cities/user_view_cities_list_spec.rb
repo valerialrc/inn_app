@@ -8,31 +8,40 @@ describe 'Usuário vê menu de cidades' do
     pm = PaymentMethod.create!(name: 'Pix')
     pm2 = PaymentMethod.create!(name: 'Dinheiro')
 
-    inn = Inn.create!(user: joao, trade_name: 'Pousada das Pedras',
-                      legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
-                      phone: '(31)99999-9999', email: 'contato@pedras.com',
-                      description: 'Pousada para a família',
-                      payment_method: pm, accepts_pets: true, 
-                      checkin_time: '13:00', checkout_time: '11:00',
-                      policies: 'Boa convivência', active: true)
+    inn = Inn.new(user: joao, trade_name: 'Pousada das Pedras',
+                  legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                  phone: '(31)99999-9999', email: 'contato@pedras.com',
+                  description: 'Pousada para a família',
+                  payment_method: pm, accepts_pets: true, 
+                  checkin_time: '13:00', checkout_time: '11:00',
+                  policies: 'Boa convivência', active: true)
+
+    address = inn.build_address(
+      street: 'Rua das Pedras',
+      number: 56,
+      district: 'Centro',
+      city: 'BH',
+      state: 'MG',
+      cep: '30000-000'
+    )
     
-    address = Address.create!(street: 'Rua das Pedras', number: 56,
-                              district: 'Centro', city: 'BH', state: 'MG',
-                              cep: '30000-000', inn: inn)
+    inn.save!
 
     ana = User.create!(email: 'ana@email.com', password: 'password')
 
-    other_inn = Inn.create!(user: ana, trade_name: 'Pousada das Cachoeiras',
-                      legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
-                      phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
-                      description: 'Pousada para a família',
-                      payment_method: pm2, accepts_pets: true, 
-                      checkin_time: '13:00', checkout_time: '11:00',
-                      policies: 'Boa convivência', active: true)
-    
-    other_address = Address.create!(street: 'Rua das Cachoeiras', number: 56,
-                              district: 'Centro', city: 'Ubá', state: 'MG',
-                              cep: '30000-050', inn: other_inn)
+    other_inn = Inn.new(user: ana, trade_name: 'Pousada das Cachoeiras',
+                        legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
+                        phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+      
+    other_address = other_inn.build_address(street: 'Rua das Cachoeiras', number: 56,
+                                            district: 'Centro', city: 'Ubá', state: 'MG',
+                                            cep: '30000-050', inn: other_inn)
+              
+    other_inn.save!
 
     # Act
     visit root_path
@@ -52,31 +61,40 @@ describe 'Usuário vê menu de cidades' do
     pm = PaymentMethod.create!(name: 'Pix')
     pm2 = PaymentMethod.create!(name: 'Dinheiro')
 
-    inn = Inn.create!(user: joao, trade_name: 'Pousada das Pedras',
-                      legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
-                      phone: '(31)99999-9999', email: 'contato@pedras.com',
-                      description: 'Pousada para a família',
-                      payment_method: pm, accepts_pets: true, 
-                      checkin_time: '13:00', checkout_time: '11:00',
-                      policies: 'Boa convivência', active: true)
+    inn = Inn.new(user: joao, trade_name: 'Pousada das Pedras',
+                  legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                  phone: '(31)99999-9999', email: 'contato@pedras.com',
+                  description: 'Pousada para a família',
+                  payment_method: pm, accepts_pets: true, 
+                  checkin_time: '13:00', checkout_time: '11:00',
+                  policies: 'Boa convivência', active: true)
+
+    address = inn.build_address(
+      street: 'Rua das Pedras',
+      number: 56,
+      district: 'Centro',
+      city: 'BH',
+      state: 'MG',
+      cep: '30000-000'
+    )
     
-    address = Address.create!(street: 'Rua das Pedras', number: 56,
-                              district: 'Centro', city: 'BH', state: 'MG',
-                              cep: '30000-000', inn: inn)
+    inn.save!
 
     ana = User.create!(email: 'ana@email.com', password: 'password')
 
-    other_inn = Inn.create!(user: ana, trade_name: 'Pousada das Cachoeiras',
-                      legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
-                      phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
-                      description: 'Pousada para a família',
-                      payment_method: pm2, accepts_pets: true, 
-                      checkin_time: '13:00', checkout_time: '11:00',
-                      policies: 'Boa convivência', active: true)
-    
-    other_address = Address.create!(street: 'Rua das Cachoeiras', number: 56,
-                              district: 'Centro', city: 'BH', state: 'MG',
-                              cep: '30000-050', inn: other_inn)
+    other_inn = Inn.new(user: ana, trade_name: 'Pousada das Cachoeiras',
+                        legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
+                        phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+      
+    other_address = other_inn.build_address(street: 'Rua das Cachoeiras', number: 42,
+                                            district: 'Centro', city: 'BH', state: 'MG',
+                                            cep: '30000-050', inn: other_inn)
+              
+    other_inn.save!
 
     # Act
     visit root_path

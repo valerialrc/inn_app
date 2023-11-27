@@ -29,4 +29,10 @@ Rails.application.routes.draw do
   resources :closed_reservations, only: [:index]
 
   resources :cities, only: [:show]
+
+  namespace :api do 
+    namespace :v1 do
+      resources :inns, only: [:show, :index, :create]
+    end
+  end
 end

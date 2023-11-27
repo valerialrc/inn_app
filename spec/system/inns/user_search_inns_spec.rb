@@ -38,17 +38,19 @@ describe "Usuário busca por uma pousada" do
 
     ana = User.create!(email: 'ana@email.com', password: 'password')
 
-    other_inn = Inn.create!(user: ana, trade_name: 'Pousada das Cachoeiras',
-                      legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
-                      phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
-                      description: 'Pousada para a família',
-                      payment_method: pm2, accepts_pets: true, 
-                      checkin_time: '13:00', checkout_time: '11:00',
-                      policies: 'Boa convivência', active: true)
-    
-    other_address = Address.create!(street: 'Rua das Cachoeiras', number: 56,
-                              district: 'Centro', city: 'Ubá', state: 'MG',
-                              cep: '30000-050', inn: other_inn)
+    other_inn = Inn.new(user: ana, trade_name: 'Pousada das Cachoeiras',
+                        legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
+                        phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+      
+    other_address = other_inn.build_address(street: 'Rua das Cachoeiras', number: 56,
+                                            district: 'Centro', city: 'Ubá', state: 'MG',
+                                            cep: '30000-050', inn: other_inn)
+                          
+    other_inn.save!
 
     # Act
     visit root_path

@@ -7,6 +7,7 @@ class Inn < ApplicationRecord
   has_many :reviews, through: :rooms
 
   accepts_nested_attributes_for :address
+  after_initialize :build_associated_records, unless: :persisted?
 
   validates :user_id, :trade_name, :legal_name, :cnpj, :phone, :email, :description,
             :payment_method_id, :checkin_time,
@@ -16,5 +17,11 @@ class Inn < ApplicationRecord
 
   def average_rating
     reviews.average(:score)
+  end
+
+  private
+
+  def build_associated_records
+    build_address unless address
   end
 end

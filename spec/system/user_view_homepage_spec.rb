@@ -19,17 +19,24 @@ describe 'Usuário visita tela inicial' do
 
     user = User.create!(email: 'pedro@email.com', password: 'password')
 
-    inn = Inn.create!(user: user, trade_name: 'Pousada das Palmeiras',
-                    legal_name: 'Pousada das Palmeiras LTDA', cnpj: '987654321',
-                    phone: '(31)11111-1111', email: 'contado@palmeiras.com',
-                    description: 'Pousada para casais',
-                    payment_method: pm2, accepts_pets: false, 
-                    checkin_time: '13:00', checkout_time: '11:00',
-                    policies: 'Boa convivência', active: false)
+    inn = Inn.new(user: user, trade_name: 'Pousada das Pedras',
+                  legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                  phone: '(31)99999-9999', email: 'contato@pedras.com',
+                  description: 'Pousada para a família',
+                  payment_method: pm, accepts_pets: true, 
+                  checkin_time: '13:00', checkout_time: '11:00',
+                  policies: 'Boa convivência', active: true)
   
-    address = Address.create!(street: 'Rua das Palmeiras', number: 65,
-                            district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
-                            cep: '50000-000', inn: inn)
+    address = inn.build_address(
+      street: 'Rua das Pedras',
+      number: 56,
+      district: 'Centro',
+      city: 'BH',
+      state: 'MG',
+      cep: '30000-000'
+    )
+    
+    inn.save!
 
     # Act
     visit root_path
@@ -49,7 +56,7 @@ describe 'Usuário visita tela inicial' do
 
     pedro = User.create!(email: 'pedro@email.com', password: 'password')
 
-    second_inn = Inn.create!(user: pedro, trade_name: 'Pousada das Palmeiras',
+    second_inn = Inn.new(user: pedro, trade_name: 'Pousada das Palmeiras',
                     legal_name: 'Pousada das Palmeiras LTDA', cnpj: '987654321',
                     phone: '(31)11111-1111', email: 'contado@palmeiras.com',
                     description: 'Pousada para casais',
@@ -57,13 +64,15 @@ describe 'Usuário visita tela inicial' do
                     checkin_time: '13:00', checkout_time: '11:00',
                     policies: 'Boa convivência', active: true)
   
-    second_address = Address.create!(street: 'Rua das Palmeiras', number: 65,
+    second_address = second_inn.build_address(street: 'Rua das Palmeiras', number: 65,
                             district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
                             cep: '50000-000', inn: second_inn)
+
+    second_inn.save!
                           
     ana = User.create!(email: 'ana@email.com', password: 'password')
 
-    third_inn = Inn.create!(user: ana, trade_name: 'Pousada das Rosas',
+    third_inn = Inn.new(user: ana, trade_name: 'Pousada das Rosas',
                     legal_name: 'Pousada das Rosas LTDA', cnpj: '333333321',
                     phone: '(31)11111-2222', email: 'contado@rosas.com',
                     description: 'Pousada para casais',
@@ -71,13 +80,15 @@ describe 'Usuário visita tela inicial' do
                     checkin_time: '13:00', checkout_time: '11:00',
                     policies: 'Boa convivência', active: true)
   
-    third_address = Address.create!(street: 'Rua das Palmeiras', number: 65,
+    third_address = third_inn.build_address(street: 'Rua das Palmeiras', number: 65,
                             district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
                             cep: '50000-000', inn: third_inn)
-                            
+
+    third_inn.save!
+                        
     paula = User.create!(email: 'paula@email.com', password: 'password')
 
-    fourth_inn = Inn.create!(user: paula, trade_name: 'Pousada Silva',
+    fourth_inn = Inn.new(user: paula, trade_name: 'Pousada Silva',
                     legal_name: 'Pousada Silva LTDA', cnpj: '333333321',
                     phone: '(31)11111-2222', email: 'contado@rosas.com',
                     description: 'Pousada para casais',
@@ -85,9 +96,11 @@ describe 'Usuário visita tela inicial' do
                     checkin_time: '13:00', checkout_time: '11:00',
                     policies: 'Boa convivência', active: true)
   
-    fourth_address = Address.create!(street: 'Rua das Palmeiras', number: 65,
+    fourth_address = fourth_inn.build_address(street: 'Rua das Palmeiras', number: 65,
                             district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
                             cep: '50000-000', inn: fourth_inn)
+
+    fourth_inn.save!
 
     # Act
     visit root_path
@@ -108,17 +121,24 @@ describe 'Usuário visita tela inicial' do
     pm = PaymentMethod.create!(name: 'Pix')
     pm2 = PaymentMethod.create!(name: 'Dinheiro')
 
-    inn = Inn.create!(user: user, trade_name: 'Pousada das Palmeiras',
-                    legal_name: 'Pousada das Palmeiras LTDA', cnpj: '987654321',
-                    phone: '(31)11111-1111', email: 'contado@palmeiras.com',
-                    description: 'Pousada para casais',
-                    payment_method: pm2, accepts_pets: false, 
-                    checkin_time: '13:00', checkout_time: '11:00',
-                    policies: 'Boa convivência', active: false)
+    inn = Inn.new(user: user, trade_name: 'Pousada das Pedras',
+                  legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                  phone: '(31)99999-9999', email: 'contato@pedras.com',
+                  description: 'Pousada para a família',
+                  payment_method: pm, accepts_pets: true, 
+                  checkin_time: '13:00', checkout_time: '11:00',
+                  policies: 'Boa convivência', active: false)
   
-    address = Address.create!(street: 'Rua das Palmeiras', number: 65,
-                            district: 'Nova Palmeira', city: 'Boituva', state: 'SP',
-                            cep: '50000-000', inn: inn)
+    address = inn.build_address(
+      street: 'Rua das Pedras',
+      number: 56,
+      district: 'Centro',
+      city: 'BH',
+      state: 'MG',
+      cep: '30000-000'
+    )
+    
+    inn.save!
 
     # Act
     visit root_path
