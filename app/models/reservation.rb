@@ -21,7 +21,7 @@ class Reservation < ApplicationRecord
 
   def confirm_status
     if self.pending?
-      self.status = :confirmed
+      self.confirmed!
     end
   end
 
