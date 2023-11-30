@@ -637,11 +637,11 @@ describe "Inn API" do
       json_response = JSON.parse(response.body)
       expect(json_response.class).to eq Array
       expect(json_response.length).to eq 2
-      expect(json_response[0]).to eq 'BH'
-      expect(json_response[1]).to eq 'Ubá'
+      expect(json_response[0]['name']).to eq 'BH'
+      expect(json_response[1]['name']).to eq 'Ubá'
     end
 
-    it 'return empty if there is no inn' do
+    it 'return empty if there is no city' do
       # Arrange
         
       # Act
@@ -656,7 +656,7 @@ describe "Inn API" do
 
     it 'fail if theres an internal error' do
       # Arrange
-      allow(Inn).to receive(:all).and_raise(ActiveRecord::QueryCanceled)
+      allow(City).to receive(:all).and_raise(ActiveRecord::QueryCanceled)
         
       # Act
       get "/api/v1/cities"

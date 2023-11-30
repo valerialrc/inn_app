@@ -1,7 +1,7 @@
 class Api::V1::CitiesController < Api::V1::ApiController
   def index
-    cities = Inn.where(active: true).joins(:address).pluck('addresses.city').uniq
-    render status: 200, json: cities.as_json()
+    cities = City.all
+    render status: 200, json: cities.as_json(except: [:created_at, :updated_at])
   end
 
   def show
