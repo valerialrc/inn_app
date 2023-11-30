@@ -40,7 +40,11 @@
         <h4>Avaliação:</h4>
         <ul>
           <li><strong>Quarto:</strong> <%= link_to(review.reservation.room.name, inn_room_path(@inn, review.reservation.room)) %></li>
+          <% if current_customer == review.reservation.customer || current_user == review.reservation.room.inn.user %>
           <li><strong>Reserva:</strong> <%= link_to(review.reservation.code, inn_room_reservation_path(@inn, review.reservation.room, review.reservation))%></li>
+          <% else %>
+            <li><strong>Reserva:</strong> <%= "#{review.reservation.code}" %></li>
+          <% end %>
           <li><strong>Nota:</strong> <%= review.score %></li>
           <li><strong>Comentário:</strong> <%= review.description %></li>
         </ul>

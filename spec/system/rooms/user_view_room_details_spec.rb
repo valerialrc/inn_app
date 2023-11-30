@@ -16,7 +16,6 @@ describe 'Usuário verifica detalhes de um quarto' do
 
     # Act
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Quarto Premium')
 
@@ -46,7 +45,6 @@ describe 'Usuário verifica detalhes de um quarto' do
 
     # Act
     visit root_path
-    login
     click_on('Pousada das Pedras')
 
     # Assert

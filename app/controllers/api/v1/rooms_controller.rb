@@ -1,4 +1,11 @@
 class Api::V1::RoomsController < Api::V1::ApiController
+  def show
+    room = Room.find(params[:id])
+    render status: 200, json: room.as_json(
+      except: [:created_at, :updated_at]
+    )
+  end
+
   def index
     rooms = Room.where(inn_id: params[:inn_id])
     render status: 200, json: rooms.as_json(

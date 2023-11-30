@@ -4,10 +4,11 @@ describe 'Usuário cadastra um quarto de pousada' do
   it 'a partir da tela de detalhes da pousada' do
     # Arrange
     create_inn
+    owner = User.first
 
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Cadastrar Quarto')
     
@@ -31,10 +32,11 @@ describe 'Usuário cadastra um quarto de pousada' do
   it 'com sucesso' do
     # Arrange
     create_inn
+    owner = User.first
 
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Cadastrar Quarto')
     fill_in 'Nome', with: 'Quarto Premium'
@@ -61,10 +63,11 @@ describe 'Usuário cadastra um quarto de pousada' do
   it 'com dados incompletos' do
     # Arrange
     create_inn
+    owner = User.first
 
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Cadastrar Quarto')
     fill_in 'Nome', with: ''

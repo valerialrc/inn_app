@@ -35,7 +35,6 @@
   <% end %>
 </p>
 
-<ul>
 <p><strong>Forma de Pagamento:</strong> 
   <% if current_page?(active_reservations_path) || current_page?(closed_reservations_path) %>
     <%= reservation.active_reservation.payment_method %>
@@ -44,7 +43,6 @@
   <% end %>
 </p>
 
-</ul>
 <p><strong>Status da Reserva:</strong> <%= t reservation.status %></p>
 <% if reservation.confirmed? %>
   <% if ((current_customer == reservation.customer && (reservation.created_at + 7.days).after?(Time.zone.now)) \

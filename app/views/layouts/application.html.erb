@@ -17,19 +17,21 @@
       <nav>
         <% if user_signed_in? %>
           <%= current_user.email %>
-          <%=link_to('Reservas', reservations_path) %>
-          <%=link_to('Estadias Ativas', active_reservations_path) %>
-          <%=link_to('Estadias Finalizadas', closed_reservations_path) %>
-          <%=link_to('Avaliações', reviews_path) %>
-          <%=button_to('Sair', destroy_user_session_path, method: :delete) %>
+          
+          <%= current_user.inn&.id ? link_to('Minha Pousada', inn_path(current_user.inn)) : '' %>
+          <%= link_to('Reservas', reservations_path) %>
+          <%= link_to('Estadias Ativas', active_reservations_path) %>
+          <%= link_to('Estadias Finalizadas', closed_reservations_path) %>
+          <%= link_to('Avaliações', reviews_path) %>
+          <%= button_to('Sair', destroy_user_session_path, method: :delete) %>
         <% elsif customer_signed_in? %>
           <%= current_customer.email %>
-          <%=link_to('Minhas Reservas', reservations_url) %>
-          <%=button_to('Sair', destroy_customer_session_path, method: :delete) %>
+          <%= link_to('Minhas Reservas', reservations_url) %>
+          <%= button_to('Sair', destroy_customer_session_path, method: :delete) %>
         <% else %>
-          <%=link_to('Entrar como Dono de Pousada', new_user_session_path) %>
+          <%= link_to('Entrar como Dono de Pousada', new_user_session_path) %>
           |
-          <%=link_to('Entrar', new_customer_session_path) %>
+          <%= link_to('Entrar', new_customer_session_path) %>
         <% end %>
 
 

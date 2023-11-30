@@ -7,7 +7,12 @@ describe 'Usuário se autentica' do
 
     # Act
     visit root_path
-    login
+    click_on 'Entrar como Dono de Pousada'
+    within('main form') do
+      fill_in 'E-mail', with: 'joao@email.com'
+      fill_in 'Senha', with: 'password'
+      click_on 'Entrar'
+    end
 
     # Assert
     expect(page).to have_content 'Login efetuado com sucesso.'
@@ -24,7 +29,12 @@ describe 'Usuário se autentica' do
 
     # Act
     visit root_path
-    login
+    click_on 'Entrar como Dono de Pousada'
+    within('main form') do
+      fill_in 'E-mail', with: 'joao@email.com'
+      fill_in 'Senha', with: 'password'
+      click_on 'Entrar'
+    end
     visit root_path
 
     # Assert
@@ -42,7 +52,12 @@ describe 'Usuário se autentica' do
 
     # Act
     visit root_path
-    login
+    click_on 'Entrar como Dono de Pousada'
+    within('main form') do
+      fill_in 'E-mail', with: 'joao@email.com'
+      fill_in 'Senha', with: 'password'
+      click_on 'Entrar'
+    end
     click_on 'Sair'
 
     # Assert

@@ -91,7 +91,7 @@ describe "Inn API" do
       
       other_address = other_inn.build_address(street: 'Rua das Cachoeiras', number: 56,
                                 district: 'Centro', city: 'Ubá', state: 'MG',
-                                cep: '30000-050', inn: other_inn)
+                                cep: '30000-050')
               
       other_inn.save!
                             
@@ -132,6 +132,61 @@ describe "Inn API" do
 
       # Assert
       expect(response).to have_http_status(500)
+    end
+  end
+
+  context 'GET /api/v1/inns/1/rooms/1' do
+    it 'success' do
+      # Arrange
+      user = User.create!(email: 'joao@email.com', password: 'password')
+
+      pm = PaymentMethod.create!(name: 'Pix')
+
+      inn = Inn.new(user: user, trade_name: 'Pousada das Pedras',
+                        legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                        phone: '(31)99999-9999', email: 'contato@pedras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+  
+      address = inn.build_address(
+        street: 'Rua das Pedras',
+        number: 56,
+        district: 'Centro',
+        city: 'BH',
+        state: 'MG',
+        cep: '30000-000'
+      )
+      
+      inn.save!
+
+      room = Room.create!(name: 'Quarto Premium',
+                        description: 'Um quarto espaçoso e confortável',
+                        dimension: 30.5, max_occupancy: 2, daily_rate: 200.0,
+                        has_bathroom: true, has_balcony: false,
+                        has_air_conditioning: true, has_tv: true,
+                        has_wardrobe: true, has_safe: false, is_accessible: true,
+                        is_available:true, inn: inn)
+
+      # Act
+      get "/api/v1/inns/#{inn.id}/rooms/#{room.id}"
+
+      # Assert
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      json_response = JSON.parse(response.body)
+      expect(json_response['name']).to eq 'Quarto Premium'
+    end
+
+    it 'fail if room not found' do
+      # Arrange
+
+      # Act
+      get "/api/v1/inns/1/rooms/999999"
+
+      # Assert
+      expect(response.status).to eq 404
     end
   end
 
@@ -464,6 +519,150 @@ describe "Inn API" do
              
       # Assert
       expect(response).to have_http_status(404)
+    end
+  end
+
+  context 'GET /api/v1/cities/1' do
+    it 'success' do
+      # Arrange
+      user = User.create!(email: 'joao@email.com', password: 'password')
+
+      pm = PaymentMethod.create!(name: 'Pix')
+
+      inn = Inn.new(user: user, trade_name: 'Pousada das Pedras',
+                        legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                        phone: '(31)99999-9999', email: 'contato@pedras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+  
+      address = inn.build_address(
+        street: 'Rua das Pedras',
+        number: 56,
+        district: 'Centro',
+        city: 'BH',
+        state: 'MG',
+        cep: '30000-000'
+      )
+      
+      inn.save!
+
+      ana = User.create!(email: 'ana@email.com', password: 'password')
+  
+      other_inn = Inn.new(user: ana, trade_name: 'Pousada das Cachoeiras',
+                        legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
+                        phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+      
+      other_address = other_inn.build_address(street: 'Rua das Cachoeiras', number: 56,
+                                district: 'Centro', city: 'BH', state: 'MG',
+                                cep: '30000-050')
+              
+      other_inn.save!
+
+      # Act
+      get "/api/v1/cities/1"
+
+      # Assert
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      json_response = JSON.parse(response.body)
+      expect(json_response[0]["trade_name"]).to eq('Pousada das Cachoeiras')
+      expect(json_response[1]["trade_name"]).to eq('Pousada das Pedras')
+    end
+
+    it 'fail if city not found' do
+      # Arrange
+
+      # Act
+      get "/api/v1/cities/999999"
+
+      # Assert
+      expect(response.status).to eq 404
+    end
+  end
+
+  context 'GET /api/v1/cities' do
+    it 'success' do
+      # Arrange
+      user = User.create!(email: 'joao@email.com', password: 'password')
+
+      pm = PaymentMethod.create!(name: 'Pix')
+
+      inn = Inn.new(user: user, trade_name: 'Pousada das Pedras',
+                        legal_name: 'Pousada das Pedras LTDA', cnpj: '123456789',
+                        phone: '(31)99999-9999', email: 'contato@pedras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+  
+      address = inn.build_address(
+        street: 'Rua das Pedras',
+        number: 56,
+        district: 'Centro',
+        city: 'BH',
+        state: 'MG',
+        cep: '30000-000'
+      )
+      
+      inn.save!
+  
+      ana = User.create!(email: 'ana@email.com', password: 'password')
+  
+      other_inn = Inn.new(user: ana, trade_name: 'Pousada das Cachoeiras',
+                        legal_name: 'Pousada das Cachoeiras LTDA', cnpj: '987654321',
+                        phone: '(31)99999-1111', email: 'contato@cachoeiras.com',
+                        description: 'Pousada para a família',
+                        payment_method: pm, accepts_pets: true, 
+                        checkin_time: '13:00', checkout_time: '11:00',
+                        policies: 'Boa convivência', active: true)
+      
+      other_address = other_inn.build_address(street: 'Rua das Cachoeiras', number: 56,
+                                district: 'Centro', city: 'Ubá', state: 'MG',
+                                cep: '30000-050')
+              
+      other_inn.save!
+                            
+      # Act
+      get "/api/v1/cities"
+
+      # Assert
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      json_response = JSON.parse(response.body)
+      expect(json_response.class).to eq Array
+      expect(json_response.length).to eq 2
+      expect(json_response[0]).to eq 'BH'
+      expect(json_response[1]).to eq 'Ubá'
+    end
+
+    it 'return empty if there is no inn' do
+      # Arrange
+        
+      # Act
+      get "/api/v1/cities"
+
+      # Assert
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      json_response = JSON.parse(response.body)
+      expect(json_response).to eq []
+    end
+
+    it 'fail if theres an internal error' do
+      # Arrange
+      allow(Inn).to receive(:all).and_raise(ActiveRecord::QueryCanceled)
+        
+      # Act
+      get "/api/v1/cities"
+
+      # Assert
+      expect(response).to have_http_status(500)
     end
   end
 end

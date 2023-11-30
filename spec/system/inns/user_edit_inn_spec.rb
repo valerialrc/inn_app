@@ -4,10 +4,11 @@ describe 'Usuário edita uma Pousada' do
   it 'a partir da página de detalhes e logado' do
     # Arrange
     create_inn
+    owner = User.first
 
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on 'Pousada das Pedras'
     click_on 'Editar'
 
@@ -35,10 +36,11 @@ describe 'Usuário edita uma Pousada' do
   it 'com sucesso' do
     # Arrange
     create_inn
+    owner = User.first
 
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on 'Pousada das Pedras'
     click_on 'Editar'
     fill_in 'E-mail', with: 'pousada@pedras.com'
@@ -61,10 +63,11 @@ describe 'Usuário edita uma Pousada' do
   it 'e mantem os campos obrigatórios' do
     # Arrange
     create_inn
+    owner = User.first
 
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on 'Pousada das Pedras'
     click_on 'Editar'
     fill_in 'E-mail', with: ''

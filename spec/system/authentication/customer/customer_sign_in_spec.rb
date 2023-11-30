@@ -1,15 +1,19 @@
 require 'rails_helper'
 
-describe 'Usuário se autentica' do
+describe 'Cliente se autentica' do
   it 'com sucesso' do
     # Arrange
     customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
                                 email: 'joao@email.com', password: 'password')
 
     # Act
-
     visit root_path
-    login_as_customer
+    click_on 'Entrar'
+    within('main form') do
+      fill_in 'E-mail', with: 'joao@email.com'
+      fill_in 'Senha', with: 'password'
+      click_on 'Entrar'
+    end
     
     # Assert
     expect(page).to have_content 'Login efetuado com sucesso.'

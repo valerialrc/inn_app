@@ -8,7 +8,14 @@ describe 'Cliente se cadastra' do
 
     # Act
     visit root_path
-    sign_up_as_customer(customer)
+    click_on 'Entrar'
+    click_on 'Criar conta como Cliente'
+    fill_in 'Nome Completo', with: customer.full_name
+    fill_in 'CPF', with: customer.cpf
+    fill_in 'E-mail', with: customer.email
+    fill_in 'Senha', with: customer.password
+    fill_in 'Confirme sua senha', with: customer.password
+    click_on 'Criar conta'
     
     # Assert
     expect(page).to have_content 'Boas vindas! Você realizou seu registro com sucesso.'

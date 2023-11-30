@@ -60,7 +60,7 @@ describe 'Dono quer fazer check-in do cliente' do
     customer = Customer.create!(full_name: 'João Silva', cpf: '11111111111',
                                 email: 'joao@email.com', password: 'password')
 
-    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 1.day.from_now.in_time_zone,
+    reservation = Reservation.create!(room: room, customer: customer, checkin_date: 2.days.from_now.in_time_zone,
                         checkout_date:1.week.from_now, guests_number: 2, status: :confirmed)
 
     # Act

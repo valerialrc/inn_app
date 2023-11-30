@@ -65,7 +65,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
     if (@reservation.checkin_date).before?(Time.zone.now)
       @reservation.active!
-      ActiveReservation.create!(reservation: @reservation, checkin_date: Time.now)
+      ActiveReservation.create!(reservation: @reservation, checkin_date: Time.zone.now)
       redirect_to active_reservations_path
     else
       redirect_to reservations_path, alert: 'Você só pode fazer check-in do cliente a partir da data da reserva.'

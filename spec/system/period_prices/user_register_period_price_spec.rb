@@ -14,9 +14,11 @@ describe 'Usuário cadastra preço por período' do
                         has_wardrobe: true, has_safe: false, is_accessible: true,
                         is_available:true, inn: inn)
 
+    owner = User.first
+
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Quarto Premium')
     click_on('Cadastrar Novo Preço')
@@ -41,9 +43,11 @@ describe 'Usuário cadastra preço por período' do
                         has_wardrobe: true, has_safe: false, is_accessible: true,
                         is_available:true, inn: inn)
 
+    owner = User.first
+
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Quarto Premium')
     click_on('Cadastrar Novo Preço')
@@ -71,9 +75,11 @@ describe 'Usuário cadastra preço por período' do
                         has_wardrobe: true, has_safe: false, is_accessible: true,
                         is_available:true, inn: inn)
 
+    owner = User.first
+
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    login
     click_on('Pousada das Pedras')
     click_on('Quarto Premium')
     click_on('Cadastrar Novo Preço')

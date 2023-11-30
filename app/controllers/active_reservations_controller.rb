@@ -15,7 +15,7 @@ class ActiveReservationsController < ApplicationController
 
     if @active_reservation.checkout_date.nil?
       @reservation.closed!
-      @active_reservation.update!(checkout_date: Time.now)
+      @active_reservation.update!(checkout_date: Time.zone.now)
 
       room = @reservation.room
       date_range = (@active_reservation.checkin_date.to_date..@active_reservation.checkout_date.prev_day.to_date)

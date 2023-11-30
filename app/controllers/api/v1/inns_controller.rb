@@ -3,7 +3,7 @@ class Api::V1::InnsController < Api::V1::ApiController
     inn = Inn.find(params[:id])
     render status: 200, json: inn.as_json(except: [:cnpj, :legal_name, :created_at, :updated_at],
       include: {
-        address: { except: [:created_at, :updated_at] }
+        address: { except: [:created_at, :updated_at, :inn_id] }
       },
       methods: [:average_rating]
     )
@@ -20,7 +20,18 @@ class Api::V1::InnsController < Api::V1::ApiController
     render status: 200, json: inns.as_json(
       except: [:cnpj, :legal_name, :created_at, :updated_at],
       include: {
-        address: { except: [:created_at, :updated_at] }
+        address: { except: [:created_at, :updated_at, :inn_id] }
+      },
+      methods: [:average_rating]
+    )
+  end
+
+  def index_by_city
+    inns = Inn.where(active: true).joins(:address).where(city: params[:city])
+    render status: 200, json: inns.as_json(
+      except: [:cnpj, :legal_name, :created_at, :updated_at],
+      include: {
+        address: { except: [:created_at, :updated_at, :inn_id] }
       },
       methods: [:average_rating]
     )

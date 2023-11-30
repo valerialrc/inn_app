@@ -6,7 +6,12 @@ describe 'Usuário cadastra uma Pousada' do
 
     # Act
     visit root_path
-    sign_up
+    click_on 'Entrar'
+    click_on 'Criar conta como Dono de Pousada'
+    fill_in 'E-mail', with: 'joao@email.com'
+    fill_in 'Senha', with: 'password'
+    fill_in 'Confirme sua senha', with: 'password'
+    click_on 'Criar conta'
     
     # Assert
     expect(page).to have_content('Nova Pousada')
@@ -36,7 +41,12 @@ describe 'Usuário cadastra uma Pousada' do
 
     # Act
     visit root_path
-    sign_up
+    click_on 'Entrar'
+    click_on 'Criar conta como Dono de Pousada'
+    fill_in 'E-mail', with: 'joao@email.com'
+    fill_in 'Senha', with: 'password'
+    fill_in 'Confirme sua senha', with: 'password'
+    click_on 'Criar conta'
     fill_in 'Nome Fantasia', with: 'Pousada das Pedras'
     fill_in 'Razão Social', with: 'Pousada das Pedras LTDA'
     fill_in 'CNPJ', with: '123456789'
@@ -72,9 +82,11 @@ describe 'Usuário cadastra uma Pousada' do
     pm = PaymentMethod.create!(name: 'Pix')
     pm2 = PaymentMethod.create!(name: 'Dinheiro')
 
+    owner = User.create!(email: 'joao@email.com', password: 'password')
+
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    sign_up
     fill_in 'Nome Fantasia', with: 'Pousada das Pedras'
     fill_in 'Razão Social', with: 'Pousada das Pedras LTDA'
     fill_in 'CNPJ', with: '123456789'
@@ -107,9 +119,11 @@ describe 'Usuário cadastra uma Pousada' do
   it 'com dados incompletos' do
     # Arrange
   
+    owner = User.create!(email: 'joao@email.com', password: 'password')
+
     # Act
+    login_as(owner, :scope => :user)
     visit root_path
-    sign_up
     fill_in 'Nome Fantasia', with: ''
     fill_in 'Razão Social', with: ''
     click_on 'Salvar'
