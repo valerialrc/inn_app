@@ -1,0 +1,24 @@
+<% if consumed_item.errors.any? %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% consumed_item.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: consumed_item, url: reservation_consumed_items_path(consumed_item.reservation), method: :post) do |form| %>
+  <div>
+    <%= form.label :description, 'Descrição' %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <%= form.label :price, 'Preço' %>
+    <%= form.number_field :price %>
+  </div>
+
+  <div>
+    <%= form.submit 'Adicionar Item Consumido' %>
+  </div>
+<% end %>

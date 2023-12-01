@@ -3,6 +3,7 @@ class Reservation < ApplicationRecord
   belongs_to :customer, optional: true
   has_one :active_reservation
   has_one :review
+  has_many :consumed_items
 
   before_validation :calculate_total_price, on: :create
   before_validation :generate_code, on: :create
@@ -16,6 +17,11 @@ class Reservation < ApplicationRecord
   validate :no_date_overlap, on: :create
   validate :max_occupancy
   enum status: { pending: 0, confirmed: 5, active: 6, closed: 7, canceled: 9 }
+
+
+  def consumed_total_price
+    consumed_items.sum(:price)
+  end
 
   private
 

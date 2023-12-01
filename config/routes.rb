@@ -14,10 +14,10 @@ Rails.application.routes.draw do
     end
   end
   resources :reservations, only: [:index, :show] do
+    resources :consumed_items, only: [:new, :create]
     resources :reviews, only: [:new, :create]
     post 'canceled', on: :member
     post 'active', on: :member
-    resources :reviews, only: [:new, :create]
   end
 
   resources :reviews, only: [:index] do

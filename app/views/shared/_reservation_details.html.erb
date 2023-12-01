@@ -101,3 +101,23 @@
       <% end %>
   <% end %>
 <% end %>
+
+<% if reservation.id %>
+  <% if reservation.consumed_items.exists? %>
+    <h2>Itens Consumidos</h2>
+    <% reservation.consumed_items.each do |item| %>
+      <div>
+        <p><strong>Descrição:</strong> <%= item.description %></p>
+        <p><strong>Preço:</strong> <%= number_to_currency(item.price) %></p>
+      </div>
+    <% end %>
+    <% if reservation.closed? %>
+      Consumo Total: <%= number_to_currency(reservation.consumed_total_price) %>
+    <% end %>
+  <% end %>
+
+  <h2>Adicionar Item Consumido</h2>
+  <div>
+    <%= render 'consumed_items/form', consumed_item: reservation.consumed_items.new %>
+  </div>
+<% end %>
