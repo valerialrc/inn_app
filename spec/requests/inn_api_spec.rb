@@ -333,9 +333,12 @@ describe "Inn API" do
                                 has_air_conditioning: true, has_tv: true,
                                 has_wardrobe: true, has_safe: false, is_accessible: true,
                                 is_available:true, inn: inn)
-                            
+
+      checkin_date = 1.day.from_now.in_time_zone.strftime('%Y-%m-%d')
+      checkout_date = 1.week.from_now.in_time_zone.strftime('%Y-%m-%d')
+
       # Act
-      get "/api/v1/inns/1/rooms/1/check_availability?checkin_date=2023-12-01&checkout_date=2023-12-05&guests_number=2"
+      get "/api/v1/inns/1/rooms/1/check_availability?checkin_date=#{checkin_date}&checkout_date=#{checkout_date}&guests_number=2"
 
       # Assert
       expect(response.status).to eq 200
@@ -344,7 +347,7 @@ describe "Inn API" do
       expect(json_response.class).to eq Hash
       expect(json_response['message']).to eq 'Quarto disponível!'
       expect(json_response['reservation_price']).to be_present
-      expect(json_response['reservation_price']).to eq '800.0'
+      expect(json_response['reservation_price']).to eq '1200.0'
     end
 
     it 'return error if room is not available' do

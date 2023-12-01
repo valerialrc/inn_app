@@ -89,7 +89,7 @@ describe 'Dono cadastra item consumido' do
     travel_back
   end
 
-  it ' e calcula preço final no checkout' do
+  it 'e calcula preço final no checkout' do
     # Arrange
     create_inn
     inn = Inn.first
@@ -129,9 +129,9 @@ describe 'Dono cadastra item consumido' do
     expect(current_path).to eq closed_reservations_path
     expect(page).to have_content 'Status da Reserva: Finalizada'
     expect(page).not_to have_content 'Realizar Check-in do Cliente'
-    expect(page).to have_field 'Descrição'
-    expect(page).to have_field 'Preço'
-    expect(page).to have_button 'Adicionar Item Consumido'
+    expect(page).not_to have_field 'Descrição'
+    expect(page).not_to have_field 'Preço'
+    expect(page).not_to have_button 'Adicionar Item Consumido'
     expect(page).to have_content 'Guaraná 600ml'
     expect(page).to have_content 'R$ 8,00'
     expect(page).to have_content 'Consumo Total: R$ 8,00'

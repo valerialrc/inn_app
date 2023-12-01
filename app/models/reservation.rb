@@ -4,6 +4,7 @@ class Reservation < ApplicationRecord
   has_one :active_reservation
   has_one :review
   has_many :consumed_items
+  has_many :guests
 
   before_validation :calculate_total_price, on: :create
   before_validation :generate_code, on: :create
